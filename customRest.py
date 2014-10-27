@@ -49,7 +49,7 @@ class myurllib():
 
     def request(self, api,  args):
         if api == 'liststockclassfication':
-            sql = 'select stock_basic_info.stock_id,stock_basic_info.stock_name,industry_info.industry_name,area_info.area_name from stock_basic_info,industry_info,area_info,stock_classification where stock_basic_info.stock_id=stock_classification.stock_id and stock_classification.area_id=area_info.area_id and stock_classification.industry_id=industry_info.industry_id'
+            sql = 'SELECT stock_basic_info.stock_id,stock_basic_info.stock_name,industry_info.industry_name,area_info.area_name FROM stock_basic_info, stock_classification LEFT JOIN industry_info ON stock_classification.industry_id=industry_info.industry_id LEFT JOIN area_info ON stock_classification.area_id = area_info.area_id where stock_basic_info.stock_id=stock_classification.stock_id'
             self.query.exec_(sql)
             ret = {'liststockclassficationresponse':{}}
             ret['liststockclassficationresponse']['stockclassification'] = []
@@ -75,7 +75,7 @@ class myurllib():
                 ids = args['stockid']
             
             
-            filter = 'stock_day_info.created > "%s" and stock_day_info.created <= "%s"' %(startD,  endD)
+            filter = 'stock_day_info.created >= "%s" and stock_day_info.created <= "%s"' %(startD,  endD)
             if ids is not None:
                 filter += " and stock_day_info.stock_id in (%s)" %ids 
                 
@@ -89,7 +89,7 @@ class myurllib():
             log('count', ret['liststockdayinforesponse']['count'] )
             self.query.clear()
             
-            sql = 'SELECT stock_day_info.* FROM stock_day_info WHERE stock_day_info.created > "%s" And stock_day_info.created <= "%s"' %(startD, endD,)
+            sql = 'SELECT stock_day_info.* FROM stock_day_info WHERE stock_day_info.created >= "%s" And stock_day_info.created <= "%s"' %(startD, endD,)
 #            sql = 'select stock_basic_info.stock_name, stock_day_info.* from stock_basic_info,stock_day_info where stock_basic_info.stock_id = stock_day_info.stock_id'
             sql += ' and ' + filter
             if 'sortname' in args:
@@ -200,7 +200,7 @@ class myurllib():
                 if sumType == 'all':
                     tableName = '%s_week_sum' %sumName
             log('tableName',  tableName)
-            filter = 'created > "%s" and created <= "%s"' %(startD,  endD)
+            filter = 'created >= "%s" and created <= "%s"' %(startD,  endD)
             if ids is not None:
                 filter += " and stock_id in (%s)" %ids 
             countSql = 'select count(*) from %s where ' %(tableName)+ filter
@@ -312,7 +312,7 @@ class myurllib():
                     sortName = 'stock_name'
                 elif sortName == 'stockid':
                     sortName = 'stock_id'
-                    
+            
             if opt == 'plus' or opt == 'minus' or opt == 'divide':
                 optType = {'plus':'+', 'minus':'-', 'divide':'/'}[opt]
                 sql = 'select a.stock_id as stock_id, a.%s, b.%s, b.%s%sa.%s as op from (select stock_id,%s from stock_day_info where created = "%s") a,\
@@ -379,30 +379,46 @@ class myurllib():
             self.query.clear()
             
             if opt == 'maxmin' or opt == 'maxmin_divide':
-                sql = 'select a.stock_id,a.created from stock_day_info as a, (select stock_id, max(%s) as ma from stock_day_info where stock_day_info.created >="%s" and stock_day_info.created <="%s" GROUP BY stock_id) as c where a.stock_id = c.stock_id and c.ma = a.%s and a.created >= "%s" and a.created <= "%s"' %(optName, startD, endD, optName, startD, endD)
-                log('sql',  sql)
+#                sql = 'select a.stock_id,a.created from stock_day_info as a, (select stock_id, max(%s) as ma from stock_day_info where stock_day_info.created >="%s" and stock_day_info.created <="%s" GROUP BY stock_id) as c where a.stock_id = c.stock_id and c.ma = a.%s and a.created >= "%s" and a.created <= "%s"' %(optName, startD, endD, optName, startD, endD)
+                sql = 'select a.stock_id, a.created from (select stock_id, created, %s from stock_day_info where created >="%s" and created <="%s" order by %s desc) as a' %(optName, startD, endD, optName)
+ 
                 if filter is not None:
-                    sql += ' and a.' + filter
+                    sql += ' where a.' + filter
+                sql += ' group by a.stock_id'
+                log('sql',  sql)
                 self.query.exec_(sql)
+                log('[*]',  'query finished')
+                i = 0
                 while self.query.next():
-                    for i in range(count):
+                    while i < count:
                         
                         if ret['liststockdaysdiffresponse']['details'][i]['stockid'] == str(self.query.value(0).toString().toUtf8()):
                             if ret['liststockdaysdiffresponse']['details'][i]['maxdate'] == '':
                                 ret['liststockdaysdiffresponse']['details'][i]['maxdate'] = str(self.query.value(1).toString().toUtf8())
+                            i += 1
                             break
+                        i += 1
                 self.query.clear()
-                sql = 'select a.stock_id,a.created from stock_day_info as a, (select stock_id, min(%s) as ma from stock_day_info where stock_day_info.created >="%s" and stock_day_info.created <="%s" GROUP BY stock_id) as c where a.stock_id = c.stock_id and c.ma = a.%s and a.created >= "%s" and a.created <= "%s"' %(optName, startD, endD, optName, startD, endD)
-                log('sql',  sql)
+                log('[*]',  'scan ')
+#                sql = 'select a.stock_id,a.created from stock_day_info as a, (select stock_id, min(%s) as ma from stock_day_info where stock_day_info.created >="%s" and stock_day_info.created <="%s" GROUP BY stock_id) as c where a.stock_id = c.stock_id and c.ma = a.%s and a.created >= "%s" and a.created <= "%s"' %(optName, startD, endD, optName, startD, endD)
+                sql = 'select a.stock_id, a.created from (select stock_id, created, %s from stock_day_info where created >="%s" and created <="%s" order by %s asc) as a' %(optName, startD, endD, optName)
+
+                
                 if filter is not None:
-                    sql += ' and a.' + filter
+                    sql += ' where a.' + filter
+                
+                sql += ' group by a.stock_id'
+                log('sql',  sql)
                 self.query.exec_(sql)
+                i = 0
                 while self.query.next():
-                    for i in range(count):
+                    while i < count:
                         if ret['liststockdaysdiffresponse']['details'][i]['stockid'] == str(self.query.value(0).toString().toUtf8()):
                             if ret['liststockdaysdiffresponse']['details'][i]['mindate']  == '':
                                 ret['liststockdaysdiffresponse']['details'][i]['mindate'] = str(self.query.value(1).toString().toUtf8())
+                            i += 1
                             break
+                        i += 1
                 self.query.clear()
 #            log('ret',  ret)
             return json.dumps(ret)

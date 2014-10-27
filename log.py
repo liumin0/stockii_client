@@ -2,7 +2,7 @@
 import datetime
 import crypt
 
-printLog = True
+printLog = False
 collectInfo = True
 
 def log(*s):
@@ -32,5 +32,5 @@ def collect(tag, message):
 
 if __name__ == '__main__':
     collect('info',  'hello')
-            
+             
             
