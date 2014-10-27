@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Project SYSTEM "Project-4.6.dtd">
+<!-- eric4 project file for project Stock -->
+<!-- Saved: 2014-10-06, 15:42:54 -->
+<!-- Copyright (C) 2014 ,  -->
+<Project version="4.6">
+  <Language>en</Language>
+  <ProgLanguage mixed="0">Python</ProgLanguage>
+  <ProjectType>Qt4</ProjectType>
+  <Description></Description>
+  <Version>0.1</Version>
+  <Author></Author>
+  <Email></Email>
+  <Sources>
+    <Source>__init__.py</Source>
+    <Source>tableModel.py</Source>
+    <Source>queryModel.py</Source>
+    <Source>customModel.py</Source>
+    <Source>http.py</Source>
+    <Source>myGlobal.py</Source>
+    <Source>config.py</Source>
+    <Source>log.py</Source>
+    <Source>translate.py</Source>
+    <Source>myAction.py</Source>
+    <Source>UI/Ui_MainWindow.py</Source>
+    <Source>UI/Ui_StockMain.py</Source>
+    <Source>UI/Ui_chooseid.py</Source>
+    <Source>UI/Ui_dialog.py</Source>
+    <Source>UI/Ui_loading.py</Source>
+    <Source>UI/Ui_progress.py</Source>
+    <Source>UI/Ui_stock.py</Source>
+    <Source>UI/Ui_StockUI.py</Source>
+    <Source>UI/Ui_xxx.py</Source>
+    <Source>UI/Ui_MyTable.py</Source>
+    <Source>UI/chooseid.py</Source>
+    <Source>UI/freezetablewidget.py</Source>
+    <Source>UI/loading.py</Source>
+    <Source>UI/MainWindow.py</Source>
+    <Source>UI/myTableWidget.py</Source>
+    <Source>UI/progress.py</Source>
+    <Source>UI/stock.py</Source>
+    <Source>UI/StockMain.py</Source>
+    <Source>UI/StockUI.py</Source>
+    <Source>UI/StockUI_bak.py</Source>
+    <Source>UI/tableSetting.py</Source>
+    <Source>UI/MyTable.py</Source>
+    <Source>resource_rc.py</Source>
+    <Source>customRest.py</Source>
+    <Source>crypt.py</Source>
+  </Sources>
+  <Forms>
+    <Form>UI/chooseid.ui</Form>
+    <Form>UI/dialog.ui</Form>
+    <Form>UI/MainWindow.ui</Form>
+    <Form>UI/progress.ui</Form>
+    <Form>UI/stock.ui</Form>
+    <Form>UI/StockMain.ui</Form>
+    <Form>UI/StockUI.ui</Form>
+    <Form>UI/MyTable.ui</Form>
+  </Forms>
+  <Translations>
+  </Translations>
+  <Resources>
+    <Resource>resource.qrc</Resource>
+  </Resources>
+  <Interfaces>
+  </Interfaces>
+  <Others>
+  </Others>
+  <MainScript>__init__.py</MainScript>
+  <Vcs>
+    <VcsType>None</VcsType>
+  </Vcs>
+  <FiletypeAssociations>
+    <FiletypeAssociation pattern="*.ui" type="FORMS" />
+    <FiletypeAssociation pattern="*.idl" type="INTERFACES" />
+    <FiletypeAssociation pattern="*.qm" type="TRANSLATIONS" />
+    <FiletypeAssociation pattern="*.ptl" type="SOURCES" />
+    <FiletypeAssociation pattern="*.pyw" type="SOURCES" />
+    <FiletypeAssociation pattern="*.ui.h" type="FORMS" />
+    <FiletypeAssociation pattern="*.ts" type="TRANSLATIONS" />
+    <FiletypeAssociation pattern="*.py" type="SOURCES" />
+    <FiletypeAssociation pattern="*.qrc" type="RESOURCES" />
+  </FiletypeAssociations>
+  <Packagers>
+    <PackagersParams>
+      <dict>
+        <key>
+          <string>CXFREEZE</string>
+        </key>
+        <value>
+          <dict>
+            <key>
+              <string>applicationIcon</string>
+            </key>
+            <value>
+              <unicode>icon.ico</unicode>
+            </value>
+            <key>
+              <string>baseName</string>
+            </key>
+            <value>
+              <unicode>Win32GUI</unicode>
+            </value>
+            <key>
+              <string>includePath</string>
+            </key>
+            <value>
+              <list>
+                <unicode>UI</unicode>
+              </list>
+            </value>
+            <key>
+              <string>targetDirectory</string>
+            </key>
+            <value>
+              <unicode>C:\Users\stock\Desktop\demoStock</unicode>
+            </value>
+            <key>
+              <string>targetName</string>
+            </key>
+            <value>
+              <unicode>stock.exe</unicode>
+            </value>
+          </dict>
+        </value>
+      </dict>
+    </PackagersParams>
+  </Packagers>
+</Project>

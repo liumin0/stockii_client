@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="image">
+    <file>ajax-loader.gif</file>
+    <file>stockii.jpg</file>
+    <file>icon.ico</file>
+  </qresource>
+</RCC>

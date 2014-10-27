@@ -1,0 +1,1059 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Tasks SYSTEM "Tasks-4.2.dtd">
+<!-- eric4 tasks file for project Stock -->
+<!-- Saved: 2014-10-23, 22:31:57 -->
+<Tasks version="4.2">
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-04-10, 23:32:12</Created>
+    <Resource>
+      <Filename>fsfsfs.py</Filename>
+      <Linenumber>28</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-07-28, 21:17:48</Created>
+    <Resource>
+      <Filename>progress.py</Filename>
+      <Linenumber>28</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-22, 00:15:14</Created>
+    <Resource>
+      <Filename>dialog.py</Filename>
+      <Linenumber>59</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-22, 00:15:14</Created>
+    <Resource>
+      <Filename>dialog.py</Filename>
+      <Linenumber>72</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-22, 00:15:14</Created>
+    <Resource>
+      <Filename>dialog.py</Filename>
+      <Linenumber>92</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-22, 00:15:14</Created>
+    <Resource>
+      <Filename>dialog.py</Filename>
+      <Linenumber>101</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-22, 00:15:14</Created>
+    <Resource>
+      <Filename>dialog.py</Filename>
+      <Linenumber>114</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-22, 00:15:14</Created>
+    <Resource>
+      <Filename>dialog.py</Filename>
+      <Linenumber>127</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-22, 00:15:14</Created>
+    <Resource>
+      <Filename>dialog.py</Filename>
+      <Linenumber>138</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-30, 14:41:30</Created>
+    <Resource>
+      <Filename>StockUI.py</Filename>
+      <Linenumber>53</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-30, 14:41:30</Created>
+    <Resource>
+      <Filename>StockUI.py</Filename>
+      <Linenumber>82</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-30, 14:41:30</Created>
+    <Resource>
+      <Filename>StockUI.py</Filename>
+      <Linenumber>119</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-30, 14:41:30</Created>
+    <Resource>
+      <Filename>StockUI.py</Filename>
+      <Linenumber>170</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-30, 14:41:30</Created>
+    <Resource>
+      <Filename>StockUI.py</Filename>
+      <Linenumber>180</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-30, 14:41:30</Created>
+    <Resource>
+      <Filename>StockUI.py</Filename>
+      <Linenumber>190</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-30, 14:42:35</Created>
+    <Resource>
+      <Filename>stock.py</Filename>
+      <Linenumber>134</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-08-30, 14:42:35</Created>
+    <Resource>
+      <Filename>stock.py</Filename>
+      <Linenumber>153</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-06, 12:24:22</Created>
+    <Resource>
+      <Filename>chooseid.py</Filename>
+      <Linenumber>89</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-06, 12:24:22</Created>
+    <Resource>
+      <Filename>chooseid.py</Filename>
+      <Linenumber>108</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-06, 12:24:22</Created>
+    <Resource>
+      <Filename>chooseid.py</Filename>
+      <Linenumber>126</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-06, 12:24:22</Created>
+    <Resource>
+      <Filename>chooseid.py</Filename>
+      <Linenumber>149</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-06, 12:24:22</Created>
+    <Resource>
+      <Filename>chooseid.py</Filename>
+      <Linenumber>162</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-06, 12:24:22</Created>
+    <Resource>
+      <Filename>chooseid.py</Filename>
+      <Linenumber>174</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-06, 12:24:22</Created>
+    <Resource>
+      <Filename>chooseid.py</Filename>
+      <Linenumber>197</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-06, 12:24:22</Created>
+    <Resource>
+      <Filename>chooseid.py</Filename>
+      <Linenumber>206</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:42:27</Created>
+    <Resource>
+      <Filename>MyTable.py</Filename>
+      <Linenumber>28</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>130</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>143</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>156</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>166</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>240</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>256</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>285</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>301</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>326</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>341</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>353</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>365</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:49:04</Created>
+    <Resource>
+      <Filename>MainWindow.py</Filename>
+      <Linenumber>379</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>72</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>124</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>137</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>150</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>160</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>191</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>265</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>281</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>310</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>326</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>351</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>366</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>378</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>390</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:52:34</Created>
+    <Resource>
+      <Filename>StockMain.py</Filename>
+      <Linenumber>404</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:54:31</Created>
+    <Resource>
+      <Filename>tableSetting.py</Filename>
+      <Linenumber>71</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:54:31</Created>
+    <Resource>
+      <Filename>tableSetting.py</Filename>
+      <Linenumber>84</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:54:31</Created>
+    <Resource>
+      <Filename>tableSetting.py</Filename>
+      <Linenumber>105</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:54:31</Created>
+    <Resource>
+      <Filename>tableSetting.py</Filename>
+      <Linenumber>114</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:54:31</Created>
+    <Resource>
+      <Filename>tableSetting.py</Filename>
+      <Linenumber>127</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:54:31</Created>
+    <Resource>
+      <Filename>tableSetting.py</Filename>
+      <Linenumber>140</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-14, 15:54:31</Created>
+    <Resource>
+      <Filename>tableSetting.py</Filename>
+      <Linenumber>151</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:05:05</Created>
+    <Resource>
+      <Filename>UI/mytable.py</Filename>
+      <Linenumber>28</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>130</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>143</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>156</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>166</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>240</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>256</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>285</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>301</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>326</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>341</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>353</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>365</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-19, 00:11:35</Created>
+    <Resource>
+      <Filename>UI/MainWindow.py</Filename>
+      <Linenumber>379</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-27, 16:10:58</Created>
+    <Resource>
+      <Filename>UI/chooseid.py</Filename>
+      <Linenumber>94</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-27, 16:10:58</Created>
+    <Resource>
+      <Filename>UI/chooseid.py</Filename>
+      <Linenumber>114</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-27, 16:10:58</Created>
+    <Resource>
+      <Filename>UI/chooseid.py</Filename>
+      <Linenumber>133</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-27, 16:10:58</Created>
+    <Resource>
+      <Filename>UI/chooseid.py</Filename>
+      <Linenumber>157</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-27, 16:10:58</Created>
+    <Resource>
+      <Filename>UI/chooseid.py</Filename>
+      <Linenumber>170</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-27, 16:10:58</Created>
+    <Resource>
+      <Filename>UI/chooseid.py</Filename>
+      <Linenumber>182</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-27, 16:10:58</Created>
+    <Resource>
+      <Filename>UI/chooseid.py</Filename>
+      <Linenumber>205</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-09-27, 16:10:58</Created>
+    <Resource>
+      <Filename>UI/chooseid.py</Filename>
+      <Linenumber>214</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-05, 10:42:40</Created>
+    <Resource>
+      <Filename>UI/StockUI.py</Filename>
+      <Linenumber>53</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-05, 10:42:40</Created>
+    <Resource>
+      <Filename>UI/StockUI.py</Filename>
+      <Linenumber>82</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-05, 10:42:40</Created>
+    <Resource>
+      <Filename>UI/StockUI.py</Filename>
+      <Linenumber>119</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-05, 10:42:40</Created>
+    <Resource>
+      <Filename>UI/StockUI.py</Filename>
+      <Linenumber>170</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-05, 10:42:40</Created>
+    <Resource>
+      <Filename>UI/StockUI.py</Filename>
+      <Linenumber>180</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-05, 10:42:40</Created>
+    <Resource>
+      <Filename>UI/StockUI.py</Filename>
+      <Linenumber>190</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-20, 22:40:49</Created>
+    <Resource>
+      <Filename>UI/tableSetting.py</Filename>
+      <Linenumber>71</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-20, 22:40:49</Created>
+    <Resource>
+      <Filename>UI/tableSetting.py</Filename>
+      <Linenumber>84</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-20, 22:40:49</Created>
+    <Resource>
+      <Filename>UI/tableSetting.py</Filename>
+      <Linenumber>105</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-20, 22:40:49</Created>
+    <Resource>
+      <Filename>UI/tableSetting.py</Filename>
+      <Linenumber>114</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-20, 22:40:49</Created>
+    <Resource>
+      <Filename>UI/tableSetting.py</Filename>
+      <Linenumber>127</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-20, 22:40:49</Created>
+    <Resource>
+      <Filename>UI/tableSetting.py</Filename>
+      <Linenumber>140</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-20, 22:40:49</Created>
+    <Resource>
+      <Filename>UI/tableSetting.py</Filename>
+      <Linenumber>151</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-22, 00:41:34</Created>
+    <Resource>
+      <Filename>UI/MyTable.py</Filename>
+      <Linenumber>104</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-22, 00:41:34</Created>
+    <Resource>
+      <Filename>UI/MyTable.py</Filename>
+      <Linenumber>118</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>132</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>145</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>158</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>173</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>204</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>244</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>260</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>289</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>306</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>333</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>349</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>361</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>373</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>397</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>455</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>475</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>489</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>529</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" bugfix="False">
+    <Summary>TODO: not implemented yet</Summary>
+    <Description></Description>
+    <Created>2014-10-23, 22:28:37</Created>
+    <Resource>
+      <Filename>UI/StockMain.py</Filename>
+      <Linenumber>541</Linenumber>
+    </Resource>
+  </Task>
+</Tasks>
