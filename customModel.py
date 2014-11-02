@@ -18,36 +18,41 @@ import myGlobal
 
 class CustomModel(QAbstractTableModel):
     """
-    Class documentation goes here.
+    自定义Model，用来存储需要再table中展示的数据
     """
     def __init__(self, parent = None):
         """
         Constructor
         """
         QAbstractTableModel.__init__(self, parent)
-        self.parent = parent;
+        self.parent = parent;           #保存父类
         
-        #,u"上市日期"
-        self.datas=[]
-        self.rCount = 0
-        self.cCount = 0
-        self.totalCount = 0
-        self.totalPage = 0
-        self.restApi = ''
-        self.args = {} #保存包括自己生成的所有参数
-        self.qArgs = {} #保存来自外面的请求参数
+        self.datas=[]                   #保存需要显示的数据
+        self.rCount = 0                 #数据的行数
+        self.cCount = 0                 #数据的列数
+        self.totalCount = 0             #数据的总数(因为分页，不能一次展示所有的数据)
+        self.totalPage = 0              #分页之后的总页数
+        self.lastRowCount = 0           #因为返回的数据需要插入一些辅助数据，比如名称之类的，所有这个用来表示现有数据中已经执行过插入操作的行数
+        self.restApi = ''               #保存访问的API
+        self.args = {}                  #保存包括自己生成的所有参数
+        self.qArgs = {}                 #保存来自外面的请求参数
 
-        self.page = 1
-        self.pageSize = 200
-        self.connect(self,  SIGNAL("callBack(QVariant, QDialog*)"),  self.callBack)
+        self.page = 1                   #当前显示的页
+        self.pageSize = 200             #每页显示的行数
+        self.connect(self,  SIGNAL("callBack(QVariant, QDialog*)"),  self.callBack) #异步通信的时候用到的回调函数
 #        self.connect(self,  QtCore.SIGNAL("first()"),  self.first)
 #        self.connect(self,  QtCore.SIGNAL("up()"),  self.up)
 #        self.connect(self,  QtCore.SIGNAL("down()"),  self.down)
 #        self.connect(self,  QtCore.SIGNAL("last()"),  self.last)
+
     def setPageSize(self,  pageSize):
         self.pageSize = pageSize
     
     def setHeader(self):
+        """
+        这个设置header的操作主要是为了保证header中的顺序，因为从服务器获取到的数据是json格式，解析之后得到的是
+        dictionary，它原始的顺序就会丢失，这儿可以自定义header的顺序
+        """
         self.headers = []
         if self.restApi == 'liststockdayinfo':
 #            self.headers = [u"代码",u"名称",u"日期",u"涨幅",u"现价",u"日涨跌",u"买入价",u"卖出价",u"总量",u"现量",u"涨速",u"换手",u"今开",u"昨收",\
@@ -78,6 +83,9 @@ class CustomModel(QAbstractTableModel):
         #self.setHeader()
         
     def setRestArgs(self,  args):
+        """
+        设置访问restAPI的参数，设置时会跟以前的参数相比较，如果发现是同一个参数，不会再次请求。
+        """
         args['response'] ='json'
 #        log('srcArg',  self.qArgs)
 #        log('newArg',  args)
@@ -99,6 +107,9 @@ class CustomModel(QAbstractTableModel):
         self.turnToPage(1)
     
     def callBack(self,  ret ,  load):
+        """
+        回调函数，用来关闭loading的界面和更新数据
+        """
         ret = ret.toPyObject()
         if ret[0] == False:
             QMessageBox.warning(self.parent,'warning', str(ret[1]))
@@ -112,6 +123,9 @@ class CustomModel(QAbstractTableModel):
 #        load.emit(SIGNAL("finished()"))
     
     def calcRowsInLimit(self,  col,  small,  big):
+        """
+        暂时没用到
+        """
         log('calcRowsInLimit',  col,  small,  big)
         if (small is None and big is None):
             return []
@@ -125,6 +139,9 @@ class CustomModel(QAbstractTableModel):
         return hideRows[:]
     
     def turnToPage(self,  page):
+        """
+        跳转页面
+        """
         if page < 1:
             QMessageBox.warning(self.parent,'warning', u'已经是第一页')
             return
@@ -139,19 +156,50 @@ class CustomModel(QAbstractTableModel):
 #            self.updateData(ret[1])
             callRestAsync(self.parent, self.restApi,  self.args,  self)
             
+    def showAll(self):
+        """
+        展示所有数据，这儿为了防止一次传输的数据量太大，做了一定的限制
+        """
+        if self.restApi != '' and self.totalCount != 0:
+            if self.restApi == 'liststockdayinfo' and self.totalCount > 2000:
+                QMessageBox.warning(self.parent,'warning', u'基础数据显示全部不能超过2000行')
+                return
+            elif self.restApi == 'listdaysum' or self.restApi == 'listweeksum' or self.restApi == 'listmonthsum' and self.totalCount > 50000:
+                QMessageBox.warning(self.parent,'warning', u'n日和数据显示全部不能超过50000行')
+                return
+            self.args['page'] = 1
+            self.args['pagesize'] = self.totalCount;
+            self.page = 1
+            callRestAsync(self.parent, self.restApi,  self.args,  self)
+        else:
+            QMessageBox.warning(self.parent,'warning', u'无数据')
             
     def first(self):
+        """
+        首页
+        """
         self.turnToPage(1)
         pass
     def up(self):
+        """
+        上一页
+        """
         self.turnToPage(self.page - 1)
     def down(self):
+        """
+        下一页
+        """
         self.turnToPage(self.page + 1)
     def last(self):
+        """
+        尾页
+        """
         self.turnToPage(self.totalPage)
     
     def updateData(self,  rJson):
-        
+        """
+        更新数据的函数，会根据API的不同，采用不同的解析方式。而且自定义列名，自定义数据显示的格式也都是在这个函数中
+        """
         decodedJson = json.loads(rJson)
         
         try:
@@ -196,31 +244,43 @@ class CustomModel(QAbstractTableModel):
             QMessageBox.warning(self.parent,'warning', u'无查询结果')
             return
         self.emit(QtCore.SIGNAL("layoutAboutToBeChanged()"))
-        self.setHeader()
+        
         
         
 #            print valuelist
-        if self.totalCount % self.pageSize == 0:
-            self.totalPage = self.totalCount / self.pageSize
+        if self.totalCount % self.args['pagesize'] == 0:
+            self.totalPage = self.totalCount / self.args['pagesize']
         else:
-            self.totalPage = self.totalCount / self.pageSize + 1
-            
-        del self.datas
-        self.datas = []
-        self.rCount = 0
-        self.cCount = 0
-        headerSet = False
+            self.totalPage = self.totalCount / self.args['pagesize'] + 1
+        
+        headerSet = True
+        log('pagesize', self.args['pagesize'], self.pageSize)
+        log('page', self.args['page'])
+        
+        if self.args['page'] == 1:                  #只有在显示第一页的时候才会刷掉之前的数据(为了‘显示更多’按钮而做的设计)
+            self.setHeader()
+            del self.datas
+            self.datas = []
+            self.rCount = 0
+            self.cCount = 0
+            self.lastRowCount = 0
+            headerSet = False
         try:
             for value in valuelist:
 #                log(value)
                 row = []
+                countAppearedKey = []
                 for key in self.columnNames[:]:
+                    if key in countAppearedKey:         #columnNames中可能会出现重复的一些指标，这里防止重复的指标重复显示
+                        continue
                     if key not in value:
                         self.columnNames.remove(key)
                         continue
                     if not headerSet:
                         self.headers.append(translate(key))
                     
+                    
+                    #分段API中需要显示百分比
                     if self.restApi == 'listgrowthampdis' and key != "stockid" and key != "stockname" and key != "growthcount" and key != "ampcount":
                         val = float(value[key])
                         tmpVal = value[key]
@@ -243,6 +303,8 @@ class CustomModel(QAbstractTableModel):
                         row.append(val)
                     else:
                         row.append(value[key])
+                    
+                    countAppearedKey.append(key)
                     
                     
                 
@@ -302,13 +364,14 @@ class CustomModel(QAbstractTableModel):
                 self.datas.append(row)   
             
             if self.restApi == 'listdaysum' or self.restApi == 'listweeksum' or self.restApi == 'listmonthsum':
-                self.headers[1] = u'结束日期'
-                self.headers.insert(1,  u'开始日期')
-                self.columnNames.insert(1, 'created')
+                if u'开始日期' not in self.headers:
+                    self.headers[1] = u'结束日期'
+                    self.headers.insert(1,  u'开始日期')
+                    self.columnNames.insert(1, 'created')
                 
 #                log(self.args)
 #                log(self.qArgs)
-                for row in self.datas:
+                for row in self.datas[self.lastRowCount:]:
                     try:
                         curDate = datetime.datetime.strptime(row[1],"%Y-%m-%dT%H:%M:%S")
                     except:
@@ -324,10 +387,13 @@ class CustomModel(QAbstractTableModel):
                     
                     row.insert(1,  startDate.strftime("%Y-%m-%dT%H:%M:%S")  )
             
-            self.headers.insert(1,  u'名称')
-            self.columnNames.insert(1, 'stockid')    
-            for row in self.datas:
-                
+            if u'名称' not in self.headers:
+                self.headers.insert(1,  u'名称')
+                self.columnNames.insert(1, 'stockid')
+            
+#            log('self.columnNames', self.columnNames)
+            
+            for row in self.datas[self.lastRowCount:]:
                 if str(row[0]) in myGlobal.id2name:
                     row.insert(1,  myGlobal.id2name[str(row[0])])
                 else:
@@ -343,6 +409,7 @@ class CustomModel(QAbstractTableModel):
 #            traceback.print_exc()
             return
         self.rCount = len(self.datas)
+        self.lastRowCount = self.rCount
         if self.rCount > 0:
             self.cCount = len(self.datas[0])
 #            print self.rCount,  self.cCount

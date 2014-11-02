@@ -33,28 +33,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="headBtn">
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>16777215</height>
-        </size>
-       </property>
+      <widget class="QPushButton" name="showMoreBtn">
        <property name="text">
-        <string>首页</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="preBtn">
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>上页</string>
+        <string>显示更多</string>
        </property>
       </widget>
      </item>
@@ -66,28 +47,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="nextBtn">
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>16777215</height>
-        </size>
-       </property>
+      <widget class="QPushButton" name="showAllBtn">
        <property name="text">
-        <string>下页</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="lastBtn">
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>尾页</string>
+        <string>显示全部</string>
        </property>
       </widget>
      </item>

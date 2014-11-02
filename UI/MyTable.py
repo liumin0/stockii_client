@@ -31,11 +31,13 @@ class MyTable(QWidget, Ui_Form):
         self.tableView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu);
     
     def setButtonsVisible(self,  visible):
-        self.headBtn.setVisible(visible)
-        self.preBtn.setVisible(visible)
-        self.nextBtn.setVisible(visible)
-        self.lastBtn.setVisible(visible)
+#        self.headBtn.setVisible(visible)
+#        self.preBtn.setVisible(visible)
+#        self.nextBtn.setVisible(visible)
+#        self.lastBtn.setVisible(visible)
         self.curPageLabel.setVisible(visible)
+        self.showAllBtn.setVisible(visible)
+        self.showMoreBtn.setVisible(visible)
     
     def __init(self):
 #        log.log('[*] __init',  self.tableView.inited)
@@ -78,23 +80,21 @@ class MyTable(QWidget, Ui_Form):
     def setModel(self,  model):
         self.model = model
         if self.modelSet == False:
-            self.connect(self.headBtn,  SIGNAL("clicked()"),  self.model.first)
-            self.connect(self.preBtn,  SIGNAL("clicked()"),  self.model.up)
-            self.connect(self.nextBtn,  SIGNAL("clicked()"),  self.model.down)
-            self.connect(self.lastBtn,  SIGNAL("clicked()"),  self.model.last)
+            self.connect(self.showMoreBtn,  SIGNAL("clicked()"),  self.model.down)
+            self.connect(self.showAllBtn,  SIGNAL("clicked()"),  self.model.showAll)
             self.modelSet = True
     
     def refreshIndex(self):
         self.curPageLabel.setText('%d/%d' %(self.model.page,  self.model.totalPage))
-        if self.model.page == 1:
-            self.preBtn.setEnabled(False)
-        else:
-            self.preBtn.setEnabled(True)
-        
-        if self.model.page== self.model.totalPage:
-            self.nextBtn.setEnabled(False)
-        else:
-            self.nextBtn.setEnabled(True)
+#        if self.model.page == 1:
+#            self.preBtn.setEnabled(False)
+#        else:
+#            self.preBtn.setEnabled(True)
+#        
+#        if self.model.page== self.model.totalPage:
+#            self.nextBtn.setEnabled(False)
+#        else:
+#            self.nextBtn.setEnabled(True)
     
     @pyqtSignature("QPoint")
     def on_tableView_customContextMenuRequested(self, pos):

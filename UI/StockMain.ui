@@ -253,6 +253,9 @@
                 </layout>
                </item>
                <item>
+                <widget class="QComboBox" name="sumTypeCombo"/>
+               </item>
+               <item>
                 <widget class="QPushButton" name="queryBtn_2">
                  <property name="text">
                   <string>查询</string>

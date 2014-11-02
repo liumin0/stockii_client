@@ -64,7 +64,7 @@ class myurllib():
                 count += 1
             ret['liststockclassficationresponse']['count'] = count
             self.query.clear()
-#            log(ret)
+#            log('ret',  ret)
             return json.dumps(ret)
             
         elif api == 'liststockdayinfo':
@@ -160,7 +160,7 @@ class myurllib():
                 row['bull_stop_losses'] = str(self.query.value(cCount + 42).toString().toUtf8())
                 row['short_covering'] = str(self.query.value(cCount + 43).toString().toUtf8())
                 row['bear_stop_losses'] = str(self.query.value(cCount + 44).toString().toUtf8())
-                row['relative_strenth_index'] = str(self.query.value(cCount + 45).toString().toUtf8())
+                row['relative_strength_index'] = str(self.query.value(cCount + 45).toString().toUtf8())
                 row['activity'] = str(self.query.value(cCount + 46).toString().toUtf8())
                 row['num_per_deal'] = str(self.query.value(cCount + 47).toString().toUtf8())
                 row['turn_per_deal'] = str(self.query.value(cCount + 48).toString().toUtf8())
@@ -191,14 +191,20 @@ class myurllib():
                 num = args['days']
                 if sumType == 'all':
                     tableName = '%s_sum' %sumName
+                else:
+                    tableName = '%s_%s_sum' %(sumType, sumName)
             elif api == 'listmonthsum':
                 num = args['months']
                 if sumType == 'all':
                     tableName = '%s_month_sum' %sumName
+                else:
+                    tableName = '%s_%s_month_sum' %(sumType, sumName)
             elif api == 'listweeksum':
                 num = args['weeks']
                 if sumType == 'all':
                     tableName = '%s_week_sum' %sumName
+                else:
+                    tableName = '%s_%s__week_sum' %(sumType, sumName)
             log('tableName',  tableName)
             filter = 'created >= "%s" and created <= "%s"' %(startD,  endD)
             if ids is not None:
@@ -281,7 +287,7 @@ class myurllib():
                 response.append(row)
             
             self.query.clear()
-            log('ret',  ret)
+            #log('ret',  ret)
             return json.dumps(ret)
         
         elif api == 'liststockdaysdiff':
@@ -330,14 +336,14 @@ class myurllib():
                 sql += ' group by stock_day_info.stock_id'
                 if sortName != 'stock_id':
                     sortName = 'maxmin'   
-            elif opt == 'maxmin_divide':
+            elif opt == 'maxmindivide':
                 sql = 'select stock_day_info.stock_id, max(stock_day_info.%s), min(stock_day_info.%s), max(stock_day_info.%s) / min(stock_day_info.%s) as maxmin from stock_day_info \
                     where stock_day_info.created >="%s" and stock_day_info.created <="%s"' %(optName,  optName,  optName, optName, startD,  endD)
                 if filter is not None:
                     sql += ' and stock_day_info.' + filter
                 sql += ' group by stock_day_info.stock_id'
                 if sortName != 'stock_id':
-                    sortName = 'maxmin_divide'  
+                    sortName = 'maxmindivide'  
             elif opt == 'sum':
                 sql = 'select stock_day_info.stock_id as stock_id as stock_name,sum(stock_day_info.%s) as s from stock_day_info \
                     where stock_day_info.created >="%s" and stock_day_info.created <="%s"' %(optName, startD,  endD)
@@ -366,7 +372,7 @@ class myurllib():
                     row['startvalue'] = str(self.query.value(1).toString().toUtf8())
                     row['endvalue'] = str(self.query.value(2).toString().toUtf8())
                     row[optName] = str(self.query.value(3).toString().toUtf8())
-                elif opt == 'maxmin' or opt == 'maxmin_divide':
+                elif opt == 'maxmin' or opt == 'maxmindivide':
                     row['maxvalue'] = str(self.query.value(1).toString().toUtf8())
                     row['minvalue'] = str(self.query.value(2).toString().toUtf8())
                     row[optName] = str(self.query.value(3).toString().toUtf8())
@@ -378,7 +384,7 @@ class myurllib():
             ret['liststockdaysdiffresponse']['count'] = count
             self.query.clear()
             
-            if opt == 'maxmin' or opt == 'maxmin_divide':
+            if opt == 'maxmin' or opt == 'maxmindivide':
 #                sql = 'select a.stock_id,a.created from stock_day_info as a, (select stock_id, max(%s) as ma from stock_day_info where stock_day_info.created >="%s" and stock_day_info.created <="%s" GROUP BY stock_id) as c where a.stock_id = c.stock_id and c.ma = a.%s and a.created >= "%s" and a.created <= "%s"' %(optName, startD, endD, optName, startD, endD)
                 sql = 'select a.stock_id, a.created from (select stock_id, created, %s from stock_day_info where created >="%s" and created <="%s" order by %s desc) as a' %(optName, startD, endD, optName)
  
@@ -719,9 +725,9 @@ class myurllib():
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     urllib = myurllib()
-    urllib.request('listStockDayInfo', {'stockid':'000001',  'starttime':'2000-01-01',  'endtime':'2014-01-01',  'sortname':'bull_profit'})
+#    urllib.request('listStockDayInfo', {'stockid':'000001',  'starttime':'2000-01-01',  'endtime':'2014-01-01',  'sortname':'bull_profit'})
 #    urllib.request('listdaysum', {'starttime':'2000-01-01',  'endtime':'2014-01-01',  'sumType':'all',  'sumname':'avg_price',  'days':'3',  'page':'1',  'pagesize':1000,  'sortname':'threeSum'})
 #    urllib.request('liststockdaysdiff', {'starttime':'2000-01-01',  'stockid':'000001, 000002, 000006', 'endtime':'2014-01-01',  'optname':'growth_ratio',  'opt':'maxmin','page':'1',  'pagesize':1000,  'sortname':'growth_ratio'})
 #    urllib.request('listgrowthampdis', {'starttime':'2012-10-01',  'endtime':'2012-11-01',  'stockid':'000001'})
-#    request('listStockclassfication', '')
+    urllib.request('liststockclassfication', '')
     sys.exit(app.exec_())

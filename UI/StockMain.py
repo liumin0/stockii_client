@@ -96,6 +96,14 @@ class StockMain(QMainWindow, Ui_MainWindow):
                             u'量比':'vol'}
         for key in self.typeNames:
             self.typeCombo.addItem(key)
+        
+        self.sumTypeNames = {
+                            u'正和':'positive', \
+                            u'负和':'negative', \
+                            u'所有和':'all'
+                    }
+        for key in self.sumTypeNames:
+            self.sumTypeCombo.addItem(key)
     
     def initCmpMethCombo(self):
         self.cmpMethNames = {
@@ -103,7 +111,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
                              u'指定两天减':'minus', \
                              u'指定两天比值':'divide', \
                              u'指定时间段内最大值减最小值':'maxmin', \
-                             u'指定时间段内最大值比最小值':'maxmin_divide', \
+                             u'指定时间段内最大值比最小值':'maxmindivide', \
                              u'指定时间段内的和':'sum', \
                              u'两个时间内涨幅,振幅数据分段':"seperate", 
                              }
@@ -121,7 +129,11 @@ class StockMain(QMainWindow, Ui_MainWindow):
         u'总市值':'total_value', \
         u'均价流通市值':'avg_circulation_value', \
         u'流通股本':'cir_of_cap_stock', \
-        u'现价':'current_price',}
+        u'现价':'current_price',\
+        u'换手':'turnover_ratio',\
+        u'总金额':'total_money',\
+        u'振幅':'amplitude_ratio',\
+        u'量比':'volume_ratio'}
         for key in self.cmpTypeNames:
             self.cmpTypeCombo.addItem(key)
     
@@ -217,12 +229,13 @@ class StockMain(QMainWindow, Ui_MainWindow):
         
         customNum = self.numCombo.currentText().toInt()[0]
         calcName = self.typeNames[str(self.typeCombo.currentText().toUtf8()).decode('utf-8')]
+        sumType = self.sumTypeNames[str(self.sumTypeCombo.currentText().toUtf8()).decode('utf-8')]
         log.log(calcName)
         log.collect('info', u'X日和查询, 起始时间:%s, 结束时间:%s, 查询指标:%s, 查询类型:%s 代码: %s,' %(startD, endD, str(self.typeCombo.currentText().toUtf8()).decode('utf-8'), str(customNum)+self.customType.replace('D', u'日').replace('W', u'周').replace('M', u'月'), self.ids))
         if len(self.ids) == len(myGlobal.id2name.keys()):
-            args = {'starttime':startD,  'endtime':endD,  'sumType':'all',  'sumname': calcName}
+            args = {'starttime':startD,  'endtime':endD,  'sumType':sumType,  'sumname': calcName}
         else:
-            args = {'stockid':','.join(self.ids),  'starttime':startD,  'endtime':endD,  'sumType':'all',  'sumname': calcName}
+            args = {'stockid':','.join(self.ids),  'starttime':startD,  'endtime':endD,  'sumType':sumType,  'sumname': calcName}
         if self.customType == 'D':
             self.calcModel.setRestApi('listdaysum')
             args['days'] = customNum
@@ -500,16 +513,18 @@ class StockMain(QMainWindow, Ui_MainWindow):
             subMenu.setTitle(u'地区板块')
             self.classifyMenuGroup = QActionGroup(self)
             for key in myGlobal.area2ids:
-                action = MyAction(key,  myGlobal.area2ids[key],  self.changeIds,  self)
-                subMenu.addAction(action)
-                self.classifyMenuGroup.addAction(action)
+                if len(key) != 0:
+                    action = MyAction(key,  myGlobal.area2ids[key],  self.changeIds,  self)
+                    subMenu.addAction(action)
+                    self.classifyMenuGroup.addAction(action)
             self.classifyMenu.addMenu(subMenu)
             subMenu = QMenu(self)
             subMenu.setTitle(u'行业板块')
             for key in myGlobal.industry2ids:
-                action = MyAction(key,  myGlobal.industry2ids[key],  self.changeIds,  self)
-                subMenu.addAction(action)
-                self.classifyMenuGroup.addAction(action)
+                if len(key) != 0:
+                    action = MyAction(key,  myGlobal.industry2ids[key],  self.changeIds,  self)
+                    subMenu.addAction(action)
+                    self.classifyMenuGroup.addAction(action)
             self.classifyMenu.addMenu(subMenu)
             
         self.classifyBtn.setChecked(True)

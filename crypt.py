@@ -2,6 +2,11 @@
 import os,  hashlib,  zlib
 
 def encrypt(srcStr):
+    """
+    加密函数，利用zlib压缩，并用原内容的md5进行异或操作，最后将md5保存在尾部
+    输入：需要加密的字符串
+    输出：加密后的字符串
+    """
     try:
         srcStr = srcStr.encode('utf-8')
     except:
@@ -17,6 +22,11 @@ def encrypt(srcStr):
     return str(zipStr + key)
 
 def decrypt(srcStr):
+    """
+    解密函数
+    输入：需要解密的字符串
+    输出：解密后的字符串
+    """
     try:
         srcStr = srcStr.encode('utf-8')
     except:

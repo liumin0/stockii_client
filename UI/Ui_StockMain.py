@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\WorkSpace\eric4\stockii\stockUI\UI\StockMain.ui'
+# Form implementation generated from reading ui file 'C:\WorkSpace\eric4\stockii\stockii_client\UI\StockMain.ui'
 #
-# Created: Sat Sep 27 15:20:37 2014
+# Created: Sun Nov 02 15:35:00 2014
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -133,6 +133,9 @@ class Ui_MainWindow(object):
         self.numCombo.setObjectName(_fromUtf8("numCombo"))
         self.horizontalLayout_12.addWidget(self.numCombo)
         self.horizontalLayout_19.addLayout(self.horizontalLayout_12)
+        self.sumTypeCombo = QtGui.QComboBox(self.groupBox_6)
+        self.sumTypeCombo.setObjectName(_fromUtf8("sumTypeCombo"))
+        self.horizontalLayout_19.addWidget(self.sumTypeCombo)
         self.queryBtn_2 = QtGui.QPushButton(self.groupBox_6)
         self.queryBtn_2.setObjectName(_fromUtf8("queryBtn_2"))
         self.horizontalLayout_19.addWidget(self.queryBtn_2)

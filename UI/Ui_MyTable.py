@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'D:\workspace\eric4\stockUI\UI\MyTable.ui'
+# Form implementation generated from reading ui file 'C:\WorkSpace\eric4\stockii\stockii_client\UI\MyTable.ui'
 #
-# Created: Fri Sep 19 00:10:21 2014
+# Created: Sun Nov 02 11:13:46 2014
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,25 +27,15 @@ class Ui_Form(object):
         self.horizontalLayout_16.setObjectName(_fromUtf8("horizontalLayout_16"))
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_16.addItem(spacerItem)
-        self.headBtn = QtGui.QPushButton(Form)
-        self.headBtn.setMaximumSize(QtCore.QSize(30, 16777215))
-        self.headBtn.setObjectName(_fromUtf8("headBtn"))
-        self.horizontalLayout_16.addWidget(self.headBtn)
-        self.preBtn = QtGui.QPushButton(Form)
-        self.preBtn.setMaximumSize(QtCore.QSize(30, 16777215))
-        self.preBtn.setObjectName(_fromUtf8("preBtn"))
-        self.horizontalLayout_16.addWidget(self.preBtn)
+        self.showMoreBtn = QtGui.QPushButton(Form)
+        self.showMoreBtn.setObjectName(_fromUtf8("showMoreBtn"))
+        self.horizontalLayout_16.addWidget(self.showMoreBtn)
         self.curPageLabel = QtGui.QLabel(Form)
         self.curPageLabel.setObjectName(_fromUtf8("curPageLabel"))
         self.horizontalLayout_16.addWidget(self.curPageLabel)
-        self.nextBtn = QtGui.QPushButton(Form)
-        self.nextBtn.setMaximumSize(QtCore.QSize(30, 16777215))
-        self.nextBtn.setObjectName(_fromUtf8("nextBtn"))
-        self.horizontalLayout_16.addWidget(self.nextBtn)
-        self.lastBtn = QtGui.QPushButton(Form)
-        self.lastBtn.setMaximumSize(QtCore.QSize(30, 16777215))
-        self.lastBtn.setObjectName(_fromUtf8("lastBtn"))
-        self.horizontalLayout_16.addWidget(self.lastBtn)
+        self.showAllBtn = QtGui.QPushButton(Form)
+        self.showAllBtn.setObjectName(_fromUtf8("showAllBtn"))
+        self.horizontalLayout_16.addWidget(self.showAllBtn)
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_16.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout_16)
@@ -57,11 +47,9 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.headBtn.setText(QtGui.QApplication.translate("Form", "首页", None, QtGui.QApplication.UnicodeUTF8))
-        self.preBtn.setText(QtGui.QApplication.translate("Form", "上页", None, QtGui.QApplication.UnicodeUTF8))
+        self.showMoreBtn.setText(QtGui.QApplication.translate("Form", "显示更多", None, QtGui.QApplication.UnicodeUTF8))
         self.curPageLabel.setText(QtGui.QApplication.translate("Form", "0/0", None, QtGui.QApplication.UnicodeUTF8))
-        self.nextBtn.setText(QtGui.QApplication.translate("Form", "下页", None, QtGui.QApplication.UnicodeUTF8))
-        self.lastBtn.setText(QtGui.QApplication.translate("Form", "尾页", None, QtGui.QApplication.UnicodeUTF8))
+        self.showAllBtn.setText(QtGui.QApplication.translate("Form", "显示全部", None, QtGui.QApplication.UnicodeUTF8))
         self.actionDump.setText(QtGui.QApplication.translate("Form", "导出本页", None, QtGui.QApplication.UnicodeUTF8))
 
 from freezetablewidget import FreezeTableWidget

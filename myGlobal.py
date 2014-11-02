@@ -3,8 +3,9 @@ import os, sys
 from PyQt4.QtGui import QDialog, QMessageBox
 from http import callRestSync
 import json
+from log import log
 
-serverType = None #'web'
+serverType = None#'web'
 serverAddr = None
 id2name = {}
 id2area = {}
@@ -36,16 +37,19 @@ def init():
         valuelist = response['stockclassification']
         for value in valuelist:
             id2name[value['stockid']] = value['stockname']
-            id2area[value['stockid']] = value['areaname']
-            id2industry[value['stockid']] = value['industryname']
-            if value['areaname'] not in area2ids:
-                area2ids[value['areaname']] = [value['stockid']]
-            elif value['stockid'] not in area2ids[value['areaname']]:
-                area2ids[value['areaname']].append(value['stockid'])
-            if value['industryname'] not in industry2ids:
-                industry2ids[value['industryname']] = [value['stockid']]
-            elif value['stockid'] not in industry2ids[value['industryname']]:
-                industry2ids[value['industryname']].append(value['stockid'])
+            
+            if 'areaname' in value and value['areaname'] != '':
+                id2area[value['stockid']] = value['areaname']
+                if value['areaname'] not in area2ids:
+                    area2ids[value['areaname']] = [value['stockid']]
+                elif value['stockid'] not in area2ids[value['areaname']]:
+                    area2ids[value['areaname']].append(value['stockid'])
+            if 'industryname' in value and value['industryname'] != '':
+                id2industry[value['stockid']] = value['industryname']
+                if value['industryname'] not in industry2ids:
+                    industry2ids[value['industryname']] = [value['stockid']]
+                elif value['stockid'] not in industry2ids[value['industryname']]:
+                    industry2ids[value['industryname']].append(value['stockid'])
     except:
 #        import traceback 
 #        traceback.print_exc()

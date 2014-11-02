@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os,  crypt
 
-
+from log import log
 
 translateTable = {
 "stock_id":u"代码",
@@ -52,7 +52,7 @@ translateTable = {
 "bull_stop_losses":u"多头止损",
 "short_covering":u"空头回补",
 "bear_stop_losses":u"空头止损",
-"relative_strenth_index":u"强弱度",
+"relative_strength_index":u"强弱度",
 "activity":u"活跃度",
 "num_per_deal":u"每笔均量",
 "turn_per_deal":u"每笔换手",
@@ -164,4 +164,5 @@ def translate(s):
     if s in translateTable:
         return translateTable[s]
     else:
+        log('unKnown name',  s)
         return "###Unknown###"
