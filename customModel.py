@@ -196,6 +196,24 @@ class CustomModel(QAbstractTableModel):
         """
         self.turnToPage(self.totalPage)
     
+    def findNearDate(self, curDate):
+        for d in myGlobal.dealDays:
+            if d >= curDate:
+                return d
+    def calcStartDate(self, curDate, delta, type):
+        if curDate not in myGlobal.dealDays:
+            log("======================================================")
+            return curDate
+        
+        if type == 'day':
+            startDate = myGlobal.dealDays[myGlobal.dealDays.index(curDate)-delta+1]#  curDate - datetime.timedelta(days = delta - 1)
+        elif type == 'week':
+            startDate = self.findNearDate(curDate - datetime.timedelta(days = 7 * (delta - 1) + curDate.weekday()))
+        else:
+            startDate = self.findNearDate(datetime.date(curDate.year, curDate.month, 1))
+        
+        return startDate
+    
     def updateData(self,  rJson):
         """
         更新数据的函数，会根据API的不同，采用不同的解析方式。而且自定义列名，自定义数据显示的格式也都是在这个函数中
@@ -284,25 +302,53 @@ class CustomModel(QAbstractTableModel):
                     if self.restApi == 'listgrowthampdis' and key != "stockid" and key != "stockname" and key != "growthcount" and key != "ampcount":
                         val = float(value[key])
                         tmpVal = value[key]
-                        log('row',  row)
+#                        log('row',  row)
                         if key.startswith('g'):
                             val /= float(row[1])
                         else:
                             val /= float(row[2])
                         
                         val *= 100
-                        val = '%s(%.2f%%)' %(str(tmpVal), val)
+                        val = '%s,(%2.2f%%)' %(str(tmpVal), val)
                         row.append(val)
                         continue
                     
-                    if key == 'total_money':
+                    if key == 'maxdate' or key == 'mindate':
+                        try:
+                            tmpDate = datetime.datetime.strptime(value[key],"%Y-%m-%dT%H:%M:%S")
+                        except:
+                            tmpDate = datetime.datetime.strptime(value[key],"%Y-%m-%dT%H:%M:%S+0800")
                         
-                        val = float(value[key])
-                        val /= 100000000
-                        val = u'%.4f亿' %val
-                        row.append(val)
+                        row.append(tmpDate.strftime("%Y-%m-%d") )
                     else:
-                        row.append(value[key])
+                        tmpKey = key
+                        if (self.restApi == 'liststockdaysdiff' and 'divide' in self.args['opt'] and key in myGlobal.reCalcTable) or (key not in myGlobal.reCalcTable and 'sum' not in key and \
+                            key != 'startvalue' and key != 'endvalue' and key != 'maxvalue' and key != 'minvalue'):
+                            row.append(value[key])
+                        else:
+                            if ('sum' in key and self.args['sumname'] not in myGlobal.reCalcTable) or ((key == 'startvalue' or key == 'endvalue' or key == 'maxvalue' or key == 'minvalue')\
+                                and self.args['optname'] not in myGlobal.reCalcTable):
+                                row.append(value[key])
+                            else:
+                                if 'sum' in key:
+                                    tmpKey = self.args['sumname']
+                                elif key == 'startvalue' or key == 'endvalue' or key == 'maxvalue' or key == 'minvalue':
+                                    tmpKey = self.args['optname']
+                                val = float(value[key])
+                                val /= myGlobal.reCalcTable[tmpKey]
+                                val = u'%4.4f' %val
+                                row.append(val)
+                        
+                    
+#                    if key == 'total_money':
+#                        
+#                        val = float(value[key])
+#                        val /= 100000000
+#                        val = u'%.4f亿' %val
+#                        row.append(val)
+#                    else:
+                    
+                    
                     
                     countAppearedKey.append(key)
                     
@@ -313,18 +359,35 @@ class CustomModel(QAbstractTableModel):
                     if not headerSet:
                         self.headers.insert(1,  u'开始时间')
                         self.headers.insert(2,  u'结束时间')
+                    
                     row.insert(1,  str(self.args['starttime']))
                     row.insert(2,  str(self.args['endtime']))
                 
                 for key in value:
                     if key not in self.columnNames[:]:
-                        if key == 'total_money':
-                            val = float(value[key])
-                            val /= 100000000
-                            val = u'%.4f亿' %val
-                            row.append(val)
+                        tmpKey = key
+                        if (self.restApi == 'liststockdaysdiff' and 'divide' in self.args['opt'] and key in myGlobal.reCalcTable) or (key not in myGlobal.reCalcTable and 'sum' not in key and \
+                            key != 'startvalue' and key != 'endvalue' and key != 'maxvalue' and key != 'minvalue'):
+                            row.append(value[key])
                         else:
-                            row.append(value[key])   
+                            if ('sum' in key and self.args['sumname'] not in myGlobal.reCalcTable) or ((key == 'startvalue' or key == 'endvalue' or key == 'maxvalue' or key == 'minvalue')\
+                                and self.args['optname'] not in myGlobal.reCalcTable):
+                                row.append(value[key])
+                            else:
+                                if 'sum' in key:
+                                    tmpKey = self.args['sumname']
+                                elif key == 'startvalue' or key == 'endvalue' or key == 'maxvalue' or key == 'minvalue':
+                                    tmpKey = self.args['optname']
+                                val = float(value[key])
+                                val /= myGlobal.reCalcTable[tmpKey]
+                                val = u'%4.4f' %val
+                                row.append(val)
+#                        if key == 'total_money':
+#                            val = float(value[key])
+#                            val /= 100000000
+#                            val = u'%.4f亿' %val
+#                            row.append(val)
+#                        else:
                         if not headerSet:
                             unit = ''
                             if key in myGlobal.typeUnitTable:
@@ -348,7 +411,10 @@ class CustomModel(QAbstractTableModel):
                                 if unit != '':
                                     self.headers.append(translate(key)+'('+unit+')')
                                 else:
-                                    self.headers.append(translate(key))
+                                    if 'sum' in key and 'sumname' in self.args and self.args['sumname'] in myGlobal.typeUnitTable:
+                                        self.headers.append(translate(key)+'('+myGlobal.typeUnitTable[self.args['sumname']]+')')
+                                    else:
+                                        self.headers.append(translate(key))
                             self.columnNames.append(key)
                 
                 if self.restApi != 'liststockdayinfo' and self.restApi != 'listgrowthampdis':
@@ -376,16 +442,19 @@ class CustomModel(QAbstractTableModel):
                         curDate = datetime.datetime.strptime(row[1],"%Y-%m-%dT%H:%M:%S")
                     except:
                         curDate = datetime.datetime.strptime(row[1],"%Y-%m-%dT%H:%M:%S+0800")
+                    curDate = curDate.date()
                     startDate = curDate
                     if 'days' in self.args:
-                        startDate -= datetime.timedelta(days = self.args['days'])
+                        startDate = self.calcStartDate(curDate, self.args['days'], 'day')#datetime.timedelta(days = self.args['days'])
                     elif 'weeks' in self.args:
-                        startDate -= datetime.timedelta(days = self.args['weeks'] * 7)
+                        startDate = self.calcStartDate(curDate, self.args['weeks'], 'week')
+#                        startDate -= datetime.timedelta(days = self.args['weeks'] * 7)
                     else:
-                        startDate = datetime.datetime(curDate.year, curDate.month, 1)
-                        startDate -= datetime.timedelta(days = 1)
+                        startDate = self.calcStartDate(curDate, self.args['months'], 'month')
+#                        startDate -= datetime.timedelta(days = 1)
                     
-                    row.insert(1,  startDate.strftime("%Y-%m-%dT%H:%M:%S")  )
+                    row[1] = curDate.strftime("%Y-%m-%d") 
+                    row.insert(1,  startDate.strftime("%Y-%m-%d")  )
             
             if u'名称' not in self.headers:
                 self.headers.insert(1,  u'名称')
@@ -444,7 +513,7 @@ class CustomModel(QAbstractTableModel):
             if self.rCount > 0:
                 if col > 1:
                     try:
-                        self.datas = sorted(self.datas, key=lambda t:float(t[col][:t[col].find('(')]),  reverse = (order != QtCore.Qt.AscendingOrder))
+                        self.datas = sorted(self.datas, key=lambda t:float(t[col][:t[col].find(',')]),  reverse = (order != QtCore.Qt.AscendingOrder))
                     except:
                         self.datas = sorted(self.datas, key=lambda t:t[col],  reverse = (order != QtCore.Qt.AscendingOrder))
                 else:

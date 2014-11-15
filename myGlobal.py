@@ -3,10 +3,17 @@ import os, sys
 from PyQt4.QtGui import QDialog, QMessageBox
 from http import callRestSync
 import json
-from log import log
+import datetime
 
+if 'APPDATA' in os.environ:
+    settingDir = os.path.join(os.environ['APPDATA'], 'stockii')
+else:
+    settingDir = '.'
+if not os.path.exists(settingDir):
+    os.makedirs(settingDir)
 serverType = None#'web'
 serverAddr = None
+dealDays = []
 id2name = {}
 id2area = {}
 id2industry = {}
@@ -14,18 +21,76 @@ area2ids = {}
 industry2ids = {}
 
 typeUnitTable = {
-"avg_price": u"元", 
 "growth_ratio": u"%", 
-"total_stock": u"万", 
-"total_value": u"万", 
-"avg_circulation_value": u"亿", 
-"cir_of_cap_stock": u"万", 
-"current_price": u"元"
+"current_price": u"元", 
+"daily_up_down": u"元", 
+"bought_price": u"元", 
+"sold_price": u"元", 
+"growth_speed": u"%", 
+"turnover_ratio": u"%", 
+"today_begin_price": u"元", 
+"ytd_end_price": u"元", 
+"max": u"元", 
+"min": u"元", 
+"total_money": u"亿元", 
+"cir_of_cap_stock": u"亿股", 
+"avg_price": u"元", 
+"num1_buy_price": u"元", 
+"num1_sell_price": u"元", 
+"num2_buy_price": u"元", 
+"num2_sell_price": u"元", 
+"num3_buy_price": u"元", 
+"num3_sell_price": u"元", 
+"circulation_value": u"亿元", 
+"total_value": u"亿元", 
+"bbi_balance": u"元", 
+"bull_profit": u"元", 
+"bull_stop_losses": u"元", 
+"total_stock": u"亿股", 
+"max_circulation_value": u"亿元", 
+"current_circulation_value": u"亿元", 
+"min_circulation_value": u"亿元", 
+"avg_circulation_value": u"亿元", 
+
+"growth": u"%", 
+"turn": u"%", 
+"total": u"亿元", 
 }
 
+reCalcTable = {
+"total_money": 100000000, 
+"total": 100000000, 
+"cir_of_cap_stock": 10000, 
+"total_stock": 10000
+}
+
+def initDealDays():
+    ret = callRestSync('listDealDays',  {'response': 'json'})
+    if ret[0] == False:
+        QMessageBox.warning(None,'warning', ret[1])
+        sys.exit(1)
+    try:
+        decodedJson = json.loads(ret[1])
+        response = decodedJson['listdealdaysresponse']
+        valuelist = response['dealdays']
+        for value in valuelist:
+            tmpDate = None
+            try:
+                tmpDate = datetime.datetime.strptime(value['date'],"%Y-%m-%dT%H:%M:%S")
+            except:
+                tmpDate = datetime.datetime.strptime(value['date'],"%Y-%m-%dT%H:%M:%S+0800")
+            if tmpDate is not None:
+                dealDays.append(tmpDate.date())
+        
+        dealDays.sort()
+    except:
+        import traceback 
+        traceback.print_exc()
+        QMessageBox.warning(None,'warning', u"通信错误")
+        sys.exit(1)
+        
 def init():
     
-    pass
 #    ret = callRestSync('listStockBasicInfo',  {'response': 'json'})
     ret = callRestSync('liststockclassfication',  {'response': 'json'})
     if ret[0] == False:

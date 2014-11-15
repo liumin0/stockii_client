@@ -89,9 +89,9 @@ class myurllib():
             log('count', ret['liststockdayinforesponse']['count'] )
             self.query.clear()
             
-            sql = 'SELECT stock_day_info.* FROM stock_day_info WHERE stock_day_info.created >= "%s" And stock_day_info.created <= "%s"' %(startD, endD,)
+            sql = 'SELECT stock_day_info.* FROM stock_day_info'
 #            sql = 'select stock_basic_info.stock_name, stock_day_info.* from stock_basic_info,stock_day_info where stock_basic_info.stock_id = stock_day_info.stock_id'
-            sql += ' and ' + filter
+            sql += ' where ' + filter
             if 'sortname' in args:
                 sortName = args['sortname']
                 ############
@@ -204,7 +204,7 @@ class myurllib():
                 if sumType == 'all':
                     tableName = '%s_week_sum' %sumName
                 else:
-                    tableName = '%s_%s__week_sum' %(sumType, sumName)
+                    tableName = '%s_%s_week_sum' %(sumType, sumName)
             log('tableName',  tableName)
             filter = 'created >= "%s" and created <= "%s"' %(startD,  endD)
             if ids is not None:
@@ -366,7 +366,7 @@ class myurllib():
             count = 0
             while self.query.next():
                 row = {}
-                count += 1
+                
                 row['stockid'] = str(self.query.value(0).toString().toUtf8())
                 if opt == 'plus' or opt == 'minus' or opt == 'divide':
                     row['startvalue'] = str(self.query.value(1).toString().toUtf8())
@@ -378,9 +378,12 @@ class myurllib():
                     row[optName] = str(self.query.value(3).toString().toUtf8())
                     row['maxdate']  = ''
                     row['mindate']  = ''
+                    if (optName == 'current_price' or optName == 'volume_ratio' or optName == 'amplitude_ratio' or optName == 'turnover_ratio' or optName == 'total_money') and float(row['minvalue']) == 0:
+                        continue
                 else:
                     row[optName] = str(self.query.value(1).toString().toUtf8())
                 ret['liststockdaysdiffresponse']['details'].append(row)
+                count += 1
             ret['liststockdaysdiffresponse']['count'] = count
             self.query.clear()
             
@@ -393,17 +396,18 @@ class myurllib():
                 sql += ' group by a.stock_id'
                 log('sql',  sql)
                 self.query.exec_(sql)
-                log('[*]',  'query finished')
+                log('[*]',  'query finished',  count)
                 i = 0
                 while self.query.next():
-                    while i < count:
-                        
-                        if ret['liststockdaysdiffresponse']['details'][i]['stockid'] == str(self.query.value(0).toString().toUtf8()):
-                            if ret['liststockdaysdiffresponse']['details'][i]['maxdate'] == '':
-                                ret['liststockdaysdiffresponse']['details'][i]['maxdate'] = str(self.query.value(1).toString().toUtf8())
-                            i += 1
-                            break
+#                    while i < count:
+#                        
+                    if ret['liststockdaysdiffresponse']['details'][i]['stockid'] == str(self.query.value(0).toString().toUtf8()):
+                        if ret['liststockdaysdiffresponse']['details'][i]['maxdate'] == '':
+                            ret['liststockdaysdiffresponse']['details'][i]['maxdate'] = str(self.query.value(1).toString().toUtf8())
                         i += 1
+                    
+                    if i >= count:
+                        break
                 self.query.clear()
                 log('[*]',  'scan ')
 #                sql = 'select a.stock_id,a.created from stock_day_info as a, (select stock_id, min(%s) as ma from stock_day_info where stock_day_info.created >="%s" and stock_day_info.created <="%s" GROUP BY stock_id) as c where a.stock_id = c.stock_id and c.ma = a.%s and a.created >= "%s" and a.created <= "%s"' %(optName, startD, endD, optName, startD, endD)
@@ -418,13 +422,13 @@ class myurllib():
                 self.query.exec_(sql)
                 i = 0
                 while self.query.next():
-                    while i < count:
-                        if ret['liststockdaysdiffresponse']['details'][i]['stockid'] == str(self.query.value(0).toString().toUtf8()):
-                            if ret['liststockdaysdiffresponse']['details'][i]['mindate']  == '':
-                                ret['liststockdaysdiffresponse']['details'][i]['mindate'] = str(self.query.value(1).toString().toUtf8())
-                            i += 1
-                            break
+#                    while i < count:
+                    if ret['liststockdaysdiffresponse']['details'][i]['stockid'] == str(self.query.value(0).toString().toUtf8()):
+                        if ret['liststockdaysdiffresponse']['details'][i]['mindate']  == '':
+                            ret['liststockdaysdiffresponse']['details'][i]['mindate'] = str(self.query.value(1).toString().toUtf8())
                         i += 1
+                    if i >= count:
+                        break
                 self.query.clear()
 #            log('ret',  ret)
             return json.dumps(ret)
@@ -679,7 +683,22 @@ class myurllib():
             log('ret',  ret)
             return json.dumps(ret)
             
-        elif api == 'listStockDayInfo1':
+        elif api == 'listDealDays':
+            sql = 'select distinct created from stock_day_info ORDER BY created asc'
+            self.query.exec_(sql)
+            ret = {'listdealdaysresponse':{}}
+            ret['listdealdaysresponse']['dealdays'] = []
+            count = 0
+            while self.query.next():
+                row = {}
+                row['date'] = str(self.query.value(0).toString().toUtf8())
+                ret['listdealdaysresponse']['dealdays'].append(row)
+                count += 1
+            ret['listdealdaysresponse']['count'] = count
+            self.query.clear()
+#            log('ret',  ret)
+            return json.dumps(ret)
+        else:
             pass
 #           
 
@@ -729,5 +748,5 @@ if __name__ == '__main__':
 #    urllib.request('listdaysum', {'starttime':'2000-01-01',  'endtime':'2014-01-01',  'sumType':'all',  'sumname':'avg_price',  'days':'3',  'page':'1',  'pagesize':1000,  'sortname':'threeSum'})
 #    urllib.request('liststockdaysdiff', {'starttime':'2000-01-01',  'stockid':'000001, 000002, 000006', 'endtime':'2014-01-01',  'optname':'growth_ratio',  'opt':'maxmin','page':'1',  'pagesize':1000,  'sortname':'growth_ratio'})
 #    urllib.request('listgrowthampdis', {'starttime':'2012-10-01',  'endtime':'2012-11-01',  'stockid':'000001'})
-    urllib.request('liststockclassfication', '')
+    urllib.request('listDealDays', '')
     sys.exit(app.exec_())

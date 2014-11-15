@@ -16,7 +16,7 @@ from myAction import MyAction
 import myGlobal
 import config
 import log
-
+import datetime
 
 
 class StockMain(QMainWindow, Ui_MainWindow):
@@ -42,6 +42,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.initCmpMethCombo()
         self.initCmpTypeCombo()
         myGlobal.init()
+        myGlobal.initDealDays()
         self.dayInfoModel = CustomModel(self)
         self.dayInfoModel.setRestApi('liststockdayinfo')
         self.calcModel = CustomModel(self)
@@ -175,8 +176,30 @@ class StockMain(QMainWindow, Ui_MainWindow):
         for item in items:
             self.numCombo.addItem(item)
     
-    def callBack(self,  ret):
-        print ret
+    def chooseNearDate(self, d):
+        lastDate = ''
+        for tmpDate in myGlobal.dealDays:
+            
+            if tmpDate > d:
+                if lastDate != '':
+                    return lastDate.strftime("%Y-%m-%d")+ ', ' +tmpDate.strftime("%Y-%m-%d")
+                else:
+                    return u'无, ' +tmpDate.strftime("%Y-%m-%d")
+            lastDate = tmpDate
+        
+        return lastDate.strftime("%Y-%m-%d") + u', 无'
+    
+    def testDate(self,  startD, endD):
+        if startD >= endD:
+            QMessageBox.warning(self,'warning', u'开始时间大于或等于结束时间')
+            return False
+        if startD not in myGlobal.dealDays:
+            QMessageBox.warning(self,'warning', u'开始时间非交易日或无数据，请重新选择，前后的交易日期分别为： '+ self.chooseNearDate(startD))
+            return False
+        if endD not in myGlobal.dealDays:
+            QMessageBox.warning(self,'warning', u'结束时间非交易日或无数据，请重新选择，前后的交易日期分别为： '+ self.chooseNearDate(endD))
+            return False
+        return True
         
     @pyqtSignature("")
     def on_queryBtn_clicked(self):
@@ -195,11 +218,12 @@ class StockMain(QMainWindow, Ui_MainWindow):
         
         startD = self.startDateEdit.date().toPyDate()
         endD = self.endDateEdit.date().toPyDate()
-        if startD >= endD:
-            QMessageBox.warning(self,'warning', u'开始时间大于或等于结束时间')
+        
+        if not self.testDate(startD, endD):
             return
+        
         #response=json&page=2&pagesize=20&stockid=000001,000002,000003,000004,000005&starttime=2008-09-24&sortname=turnover_ratio
-        log.collect('info', u'原始数据查询, 起始时间:%s, 结束时间:%s, 代码: %s' %(startD, endD, self.ids))
+        config.collect('info', u'原始数据查询, 起始时间:%s, 结束时间:%s, 代码: %s' %(startD, endD, self.ids))
         args = {}
         if len(self.ids) == len(myGlobal.id2name.keys()):
             args = {'starttime':startD,  'endtime':endD}
@@ -222,16 +246,16 @@ class StockMain(QMainWindow, Ui_MainWindow):
         
         startD = self.startDateEdit_2.date().toPyDate()
         endD = self.endDateEdit_2.date().toPyDate()
-        if startD >= endD:
-            QMessageBox.warning(self,'warning', u'开始时间大于或等于结束时间')
-            return
-        #response=json&page=2&pagesize=20&stockid=000001,000002,000003,000004,000005&starttime=2008-09-24&sortname=turnover_ratio
         
+        #response=json&page=2&pagesize=20&stockid=000001,000002,000003,000004,000005&starttime=2008-09-24&sortname=turnover_ratio
+        if not self.testDate(startD, endD):
+            return
+            
         customNum = self.numCombo.currentText().toInt()[0]
         calcName = self.typeNames[str(self.typeCombo.currentText().toUtf8()).decode('utf-8')]
         sumType = self.sumTypeNames[str(self.sumTypeCombo.currentText().toUtf8()).decode('utf-8')]
         log.log(calcName)
-        log.collect('info', u'X日和查询, 起始时间:%s, 结束时间:%s, 查询指标:%s, 查询类型:%s 代码: %s,' %(startD, endD, str(self.typeCombo.currentText().toUtf8()).decode('utf-8'), str(customNum)+self.customType.replace('D', u'日').replace('W', u'周').replace('M', u'月'), self.ids))
+        config.collect('info', u'X日和查询, 起始时间:%s, 结束时间:%s, 查询指标:%s, 查询类型:%s 代码: %s,' %(startD, endD, str(self.typeCombo.currentText().toUtf8()).decode('utf-8'), str(customNum)+self.customType.replace('D', u'日').replace('W', u'周').replace('M', u'月'), self.ids))
         if len(self.ids) == len(myGlobal.id2name.keys()):
             args = {'starttime':startD,  'endtime':endD,  'sumType':sumType,  'sumname': calcName}
         else:
@@ -306,7 +330,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
             return
         self.groups[ret[0]] = ret[1]
 #            self.listWidget.addItem(ret[0])
-        log.collect('info', u'添加分组, 分组名称: %s, 分组详情: %s' %(ret[0], ','.join(ret[1])))
+        config.collect('info', u'添加分组, 分组名称: %s, 分组详情: %s' %(ret[0], ','.join(ret[1])))
         log.log(self.groups)
         self.updateFilter()
         config.writeSetting('groups',  self.groups)
@@ -330,7 +354,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
             self.groups[ret[0]] = ret[1]
         else:
             return
-        log.collect('info', u'编辑分组, 分组名称: %s, 新分组详情: %s' %(ret[0], ','.join(ret[1])))
+        config.collect('info', u'编辑分组, 分组名称: %s, 新分组详情: %s' %(ret[0], ','.join(ret[1])))
         self.updateFilter()
         config.writeSetting('groups',  self.groups)
         if self.selectedGroup == selectedItemText:
@@ -350,7 +374,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
         if selectedItemText not in self.groups:
             QMessageBox.warning(self,'warning', u'未知分组')
             return
-        log.collect('info', u'删除分组, 分组名称: %s, 分组详情: %s' %(selectedItemText, ','.join(self.groups[selectedItemText])))
+        config.collect('info', u'删除分组, 分组名称: %s, 分组详情: %s' %(selectedItemText, ','.join(self.groups[selectedItemText])))
         self.groups.pop(selectedItemText)
         self.updateFilter()
         config.writeSetting('groups',  self.groups)
@@ -416,15 +440,14 @@ class StockMain(QMainWindow, Ui_MainWindow):
             return
         startD = self.startDateEdit_3.date().toPyDate()
         endD = self.endDateEdit_3.date().toPyDate()
-        if startD >= endD:
-            QMessageBox.warning(self,'warning', u'开始时间大于或等于结束时间')
+        if not self.testDate(startD, endD):
             return
         #response=json&page=2&pagesize=20&stockid=000001,000002,000003,000004,000005&starttime=2008-09-24&sortname=turnover_ratio
         #optname=avg_price,growth_ratio,current_price&opt=-&starttime=2008-03-25&endtime=2008-03-28&page=4&pagesize=20
         optname = self.cmpTypeNames[str(self.cmpTypeCombo.currentText().toUtf8()).decode('utf-8')] #self.cmpTypeCombo.currentText().toInt()[0]
         opt = self.cmpMethNames[str(self.cmpMethCombo.currentText().toUtf8()).decode('utf-8')]
         log.log(opt)
-        log.collect('info', u'计算查询, 起始时间:%s, 结束时间:%s, 计算指标:%s, 计算类型:%s, 代码: %s' %(startD, endD, str(self.cmpTypeCombo.currentText().toUtf8()).decode('utf-8'), str(self.cmpMethCombo.currentText().toUtf8()).decode('utf-8'), self.ids))
+        config.collect('info', u'计算查询, 起始时间:%s, 结束时间:%s, 计算指标:%s, 计算类型:%s, 代码: %s' %(startD, endD, str(self.cmpTypeCombo.currentText().toUtf8()).decode('utf-8'), str(self.cmpMethCombo.currentText().toUtf8()).decode('utf-8'), self.ids))
 
         if opt == 'seperate':
             args = {'stockid':','.join(self.ids),  'starttime':startD,  'endtime':endD}
@@ -565,3 +588,4 @@ class StockMain(QMainWindow, Ui_MainWindow):
         log.log('self.ids:',  self.ids)
         self.clearClassify()
         #raise NotImplementedError
+    
