@@ -45,8 +45,91 @@ class myurllib():
         else:
             self.db = myurllib.db
             self.query = myurllib.query 
-
-
+    
+    def parseInnerFilter(self,  innerFilterType):
+        ret = None
+        condition = ''
+        tableFilter = ''
+        try:
+            flag, type = innerFilterType.split('#')
+            clz, switchType, subType = type.split('_')
+            log('innerFilterType', switchType, subType)
+            if switchType == '0':
+                condition = { 
+                 '0': u'z.today_begin_price=z.current_price and z.max=z.min and z.current_price=z.max',     #开盘=收盘=最高=最低
+                }[subType]
+            elif switchType == '1':
+                condition = {
+                 '0': u'z.amplitude_ratio<2',                                       #振幅 < 2%
+                 '1': u'amplitude_ratio=0'                                          #振幅 = 0
+                }[subType]
+            elif switchType == '2':
+                condition = {
+                 '0': u'z.sold_price=0 and z.growth_ratio>4.9',                        #u'卖价 = 0, 涨幅 > 4.9%'
+                 '1': u'z.bought_price=0 and z.growth_ratio<-4.9'                      #u'买价 = 0, 涨幅 < -4.9%'
+                }[subType]
+            elif switchType == '3':
+                condition = {
+                 '0': u'z.total_money<99990000',                                    #u'总金额 < 0.9999亿'
+                 '1': u'z.total_money<199990000 and z.total_money>100000000',       #u'总金额 1 ~ 1.9999亿'
+                 '2': u'z.total_money<499990000 and z.total_money>200000000',       #u'总金额 2 ~ 4.9999亿'
+                 '3': u'z.total_money>=500000000',                                  #u'总金额 >= 5亿', 
+                 '4': u'z.total_money>900000000',                                   #u'总金额 >  9亿', 
+                 '5': u'z.total_money<1500000000',                                  #u'总金额 >  15亿'
+                 '6': u'z.total_money>2000000000',                                  #u'总金额 >  20亿'
+                 '7': u'z.total_money>2500000000',                                  #u'总金额 >  25亿'
+                 '8': u'z.total_money>3000000000',                                  #u'总金额 >  30亿'
+                 '9': u'z.total_money>4000000000'                                   #u'总金额 >  40亿'  
+                }[subType]
+            elif switchType == '4':
+                condition = {
+                 '0': u'z.turnover_ratio<0.9999',                                    #u'换手率 < 0.9999%'
+                 '1': u'z.turnover_ratio<2.9999 and z.turnover_ratio>=1',            #u'换手率 1% ~ 2.9999%'
+                 '2': u'z.turnover_ratio<4.9999 and z.turnover_ratio>=3',            #u'换手率 3% ~ 4.9999%'
+                 '3': u'z.turnover_ratio<6.9999 and z.turnover_ratio>=5',            #u'换手率 5% ~ 6.9999%'
+                 '4': u'z.turnover_ratio<9.9999 and z.turnover_ratio>=7',            #u'换手率 7% ~ 9.9999%'
+                 '5': u'z.turnover_ratio>=10',                                       #u'换手率 >= 10%'
+                 '6': u'z.turnover_ratio>15',                                        #u'换手率 > 15%'
+                 '7': u'z.turnover_ratio>20',                                        #u'换手率 > 20%'
+                 '8': u'z.turnover_ratio>25',                                        #u'换手率 > 25%'
+                 '9': u'z.turnover_ratio>30',                                        #u'换手率 > 30%'
+                 '10': u'z.turnover_ratio>35',                                       #u'换手率 > 35%'
+                 '11': u'z.turnover_ratio>40',                                       #u'换手率 > 40%'
+                 '12': u'z.turnover_ratio>45',                                       #u'换手率 > 45%'
+                 '13': u'z.turnover_ratio>50',                                       #u'换手率 > 50%'
+                 '14': u'z.turnover_ratio>60',                                       #u'换手率 > 60%'
+                }[subType]
+            elif switchType == '5':
+                condition = {
+                 '0': u'MONTH(z.created)<4',                                         #u'第 1 季度'
+                 '1': u'MONTH(z.created)<7 and MONTH(z.created)>=4',                 #u'第 2 季度'
+                 '2': u'MONTH(z.created)<10 and MONTH(z.created)>=7',                #u'第 3 季度'
+                 '3': u'MONTH(z.created)<=12 and MONTH(z.created)>=10',              #u'第 4 季度'
+                 '4': u'MONTH(z.created)=1',                                         #u'1 月'
+                 '5': u'MONTH(z.created)=2',                                         #u'2 月'
+                 '6': u'MONTH(z.created)=3',                                         #u'3 月'
+                 '7': u'MONTH(z.created)=4',                                         #u'4 月'
+                 '8': u'MONTH(z.created)=5',                                         #u'5 月'
+                 '9': u'MONTH(z.created)=6',                                         #u'6 月'
+                 '10': u'MONTH(z.created)=7',                                        #u'7 月'
+                 '11': u'MONTH(z.created)=8',                                        #u'8 月'
+                 '12': u'MONTH(z.created)=9',                                        #u'9 月'
+                 '13': u'MONTH(z.created)=10',                                       #u'10 月'
+                 '14': u'MONTH(z.created)=11',                                       #u'11 月'
+                 '14': u'MONTH(z.created)=12',                                       #u'12 月'
+                }[subType]
+            else:
+                log('Unkown filter')
+                
+            if flag == 'FLAG_UP':
+                tableFilter = u'y.ty_minus>0' 
+            else:
+                tableFilter = u'y.yt_minus>0' 
+        except:
+            log('Exception')
+        
+        return tableFilter, condition
+        
     def request(self, api,  args):
         if api == 'liststockclassfication':
             sql = 'SELECT stock_basic_info.stock_id,stock_basic_info.stock_name,industry_info.industry_name,area_info.area_name FROM stock_basic_info, stock_classification LEFT JOIN industry_info ON stock_classification.industry_id=industry_info.industry_id LEFT JOIN area_info ON stock_classification.area_id = area_info.area_id where stock_basic_info.stock_id=stock_classification.stock_id'
@@ -71,15 +154,22 @@ class myurllib():
             startD = args['starttime']
             endD = args['endtime']
             ids = None
+            
             if 'stockid' in args:
                 ids = args['stockid']
-            
-            
-            filter = 'stock_day_info.created >= "%s" and stock_day_info.created <= "%s"' %(startD,  endD)
+            filter = 'z.created >= "%s" and z.created <= "%s"' %(startD,  endD)
             if ids is not None:
-                filter += " and stock_day_info.stock_id in (%s)" %ids 
-                
-            countSql = 'select count(*) from stock_day_info where ' + filter
+                filter += " and z.stock_id in (%s)" %ids 
+            
+            innerFilterType = None
+            if 'filter' in args:
+                innerFilterType = args['filter']
+                tableFilter, condition = self.parseInnerFilter(innerFilterType)
+                filter += ' and y.stock_id=z.stock_id and y.created=z.created and %s and %s' %(tableFilter, condition)
+                countSql = 'select count(*) from stock_day_info z, twodaysdifference y where ' + filter
+            else:
+                countSql = 'select count(*) from stock_day_info z where ' + filter
+
             log('countSql',  countSql)
             self.query.exec_(countSql)
             self.query.next()
@@ -89,8 +179,11 @@ class myurllib():
             log('count', ret['liststockdayinforesponse']['count'] )
             self.query.clear()
             
-            sql = 'SELECT stock_day_info.* FROM stock_day_info'
+            sql = 'SELECT z.* FROM stock_day_info z'
 #            sql = 'select stock_basic_info.stock_name, stock_day_info.* from stock_basic_info,stock_day_info where stock_basic_info.stock_id = stock_day_info.stock_id'
+            if innerFilterType is not None:
+                sql += ', twodaysdifference y'
+                
             sql += ' where ' + filter
             if 'sortname' in args:
                 sortName = args['sortname']
@@ -187,6 +280,7 @@ class myurllib():
             sumName = args['sumname']
             tableName = ''
             num = 1
+
             if api == 'listdaysum':
                 num = args['days']
                 if sumType == 'all':
@@ -206,10 +300,19 @@ class myurllib():
                 else:
                     tableName = '%s_%s_week_sum' %(sumType, sumName)
             log('tableName',  tableName)
-            filter = 'created >= "%s" and created <= "%s"' %(startD,  endD)
+            filter = 'x.created >= "%s" and x.created <= "%s"' %(startD,  endD)
             if ids is not None:
-                filter += " and stock_id in (%s)" %ids 
-            countSql = 'select count(*) from %s where ' %(tableName)+ filter
+                filter += " and x.stock_id in (%s)" %ids 
+            
+            innerFilterType = None
+            if 'filter' in args:
+                innerFilterType = args['filter']
+                tableFilter, condition = self.parseInnerFilter(innerFilterType)
+                filter += ' and x.stock_id=y.stock_id and x.created=y.created and y.stock_id=z.stock_id and y.created=z.created and %s and %s' %(tableFilter, condition)
+                countSql = 'select count(*) from %s x, stock_day_info z, twodaysdifference y where ' %tableName + filter
+            else:
+                countSql = 'select count(*) from %s x where ' %tableName + filter
+                
             log('countSql',  countSql)
             self.query.exec_(countSql)
             self.query.next()
@@ -252,9 +355,10 @@ class myurllib():
             self.query.clear()
             
             
-            
-            
-            sql = 'select stock_id,created,%s from %s where ' %(columnName, tableName) + filter
+            if innerFilterType is not None:
+                sql = 'select x.stock_id,x.created,x.%s from %s x, stock_day_info z, twodaysdifference y where ' %(columnName, tableName) + filter
+            else:
+                sql = 'select x.stock_id,x.created,x.%s from %s x where ' %(columnName, tableName) + filter
                     
             if 'sortname' in args:
                 sortName = args['sortname']
@@ -301,16 +405,11 @@ class myurllib():
             filter = None
             if ids is not None:
                 filter = "stock_id in (%s)" %ids 
+            
+            
             ret = {'liststockdaysdiffresponse':{}}
             ret['liststockdaysdiffresponse']['details'] = []
-#            countSql = 'select count(*) from stock_day_info'
-#            if filter is not None:
-#                countSql += ' where ' + filter
-#            log('countSql',  countSql)
-#            self.query.exec_(countSql)
-#            self.query.next()
-#            ret['liststockdaysdiffresponse']['count'] = int(self.query.value(0).toString().toUtf8())
-#            self.query.clear()
+
             sortName = None
             if 'sortname' in args:
                 sortName = args['sortname']
@@ -330,7 +429,7 @@ class myurllib():
                     sortName = 'op'
             elif opt == 'maxmin':
                 sql = 'select stock_day_info.stock_id, max(stock_day_info.%s), min(stock_day_info.%s), max(stock_day_info.%s) - min(stock_day_info.%s) as maxmin from stock_day_info \
-                    where stock_day_info.created >="%s" and stock_day_info.created <="%s"' %(optName,  optName,  optName, optName, startD,  endD)
+                    where stock_day_info.created >="%s" and stock_day_info.created <="%s" and %s > 0' %(optName,  optName,  optName, optName, startD, endD, optName)
                 if filter is not None:
                     sql += ' and stock_day_info.' + filter
                 sql += ' group by stock_day_info.stock_id'
@@ -338,7 +437,7 @@ class myurllib():
                     sortName = 'maxmin'   
             elif opt == 'maxmindivide':
                 sql = 'select stock_day_info.stock_id, max(stock_day_info.%s), min(stock_day_info.%s), max(stock_day_info.%s) / min(stock_day_info.%s) as maxmin from stock_day_info \
-                    where stock_day_info.created >="%s" and stock_day_info.created <="%s"' %(optName,  optName,  optName, optName, startD,  endD)
+                    where stock_day_info.created >="%s" and stock_day_info.created <="%s" and %s > 0' %(optName,  optName,  optName, optName, startD, endD, optName)
                 if filter is not None:
                     sql += ' and stock_day_info.' + filter
                 sql += ' group by stock_day_info.stock_id'
@@ -638,47 +737,7 @@ class myurllib():
                 count += 1
             ret['listgrowthampdisresponse']['count'] = count
             self.query.clear()
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g1', -9, -8)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g2', -8, -7)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g3', -7, -6)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g4', -6, -5)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g5', -5, -4)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g6', -4, -3)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g7', -3, -2)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g8', -2, -1)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g9', -1, 0)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g10', 0, 1)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g11', 1, 2)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g12', 2, 3)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g13', 3, 4)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g14', 4, 5)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g15', 5, 6)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g16', 6, 7)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g17', 7, 8)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g18', 8, 9)
-#            self.reuseQuery(filter, 'growth_ratio', ret['listgrowthampdisresponse']['growthamp'], 'g19', 9)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a0', 0, 1)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a1', 1, 2)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a2', 2, 3)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a3', 3, 4)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a4', 4, 5)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a5', 5, 6)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a6', 6, 7)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a7', 7, 8)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a8', 8, 9)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a9', 9, 10)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a10', 10,11)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a11', 11,12)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a12', 12,13)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a13', 13,14)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a14', 14,15)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a15', 15,16)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a16', 16,17)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a17', 17,18)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a18', 18,19)
-#            self.reuseQuery(filter, 'amplitude_ratio', ret['listgrowthampdisresponse']['growthamp'], 'a19', 19)
 
-            
             
             log('ret',  ret)
             return json.dumps(ret)

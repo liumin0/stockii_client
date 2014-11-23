@@ -32,5 +32,3 @@ class MyAction(QAction):
         self.setChecked(True)
         self.callBack(self.arg)
         #print self.isChecked()
-    
-    

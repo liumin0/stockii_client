@@ -2,7 +2,7 @@
 
 import os
 
-printLog = False
+printLog = True
 
 def log(*s):
     if printLog:

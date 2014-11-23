@@ -81,7 +81,14 @@ class CustomModel(QAbstractTableModel):
     def setRestApi(self,  api):
         self.restApi = api
         #self.setHeader()
-        
+    
+    def removeFilter(self):
+        if 'filter' in self.args:
+            self.args.pop('filter')   
+    
+    def getArgs(self):
+        return self.args
+    
     def setRestArgs(self,  args):
         """
         设置访问restAPI的参数，设置时会跟以前的参数相比较，如果发现是同一个参数，不会再次请求。
@@ -104,6 +111,7 @@ class CustomModel(QAbstractTableModel):
             self.args.pop('stockid')
         if 'sortname' not in args and 'sortname' in self.args:
             self.args.pop('sortname')   
+        
         self.turnToPage(1)
     
     def callBack(self,  ret ,  load):

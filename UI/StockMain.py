@@ -12,7 +12,7 @@ from chooseid import ChooseId
 from customModel import CustomModel
 from tableSetting import TableSetting
 from myAction import MyAction
-
+from myMenu import MyMenu
 import myGlobal
 import config
 import log
@@ -41,8 +41,8 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.on_daySumRadio_clicked()
         self.initCmpMethCombo()
         self.initCmpTypeCombo()
-        myGlobal.init()
-        myGlobal.initDealDays()
+#        myGlobal.init()
+#        myGlobal.initDealDays()
         self.dayInfoModel = CustomModel(self)
         self.dayInfoModel.setRestApi('liststockdayinfo')
         self.calcModel = CustomModel(self)
@@ -500,10 +500,13 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.ids = ids
         curIndex = self.tabWidget.currentIndex()
         if curIndex == 0:
+            self.dayInfoModel.removeFilter()
             self.on_queryBtn_clicked()
         elif curIndex == 1:
+            self.calcModel.removeFilter()
             self.on_queryBtn_2_clicked()
         elif curIndex == 2:
+            self.calcModel2.removeFilter()
             self.on_calculateBtn_clicked()
     
     @pyqtSignature("")
@@ -549,6 +552,10 @@ class StockMain(QMainWindow, Ui_MainWindow):
                     subMenu.addAction(action)
                     self.classifyMenuGroup.addAction(action)
             self.classifyMenu.addMenu(subMenu)
+            subMenu = MyMenu(u'向上版块', 'FLAG_UP', self, self.classifyMenuGroup)
+            self.classifyMenu.addMenu(subMenu)
+            subMenu = MyMenu(u'向下版块', 'FLAG_DOWN', self, self.classifyMenuGroup)
+            self.classifyMenu.addMenu(subMenu)
             
         self.classifyBtn.setChecked(True)
         pos = QPoint()
@@ -588,4 +595,19 @@ class StockMain(QMainWindow, Ui_MainWindow):
         log.log('self.ids:',  self.ids)
         self.clearClassify()
         #raise NotImplementedError
+    
+    def detailClassify(self, type, arg):
+        curIndex = self.tabWidget.currentIndex()
+        if curIndex == 0:
+            orgArgs = self.dayInfoModel.getArgs()
+            orgArgs['filter'] = type + '#' + arg
+            self.dayInfoModel.setRestArgs(orgArgs)
+        elif curIndex == 1:
+            orgArgs = self.calcModel.getArgs()
+            orgArgs['filter'] = type + '#' + arg
+            self.calcModel.setRestArgs(orgArgs)
+        elif curIndex == 2:
+            orgArgs = self.calcModel2.getArgs()
+            orgArgs['filter'] = type + '#' + arg
+            self.calcModel2.setRestArgs(orgArgs)
     
