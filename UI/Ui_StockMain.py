@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'C:\WorkSpace\eric4\stockii\stockii_client\UI\StockMain.ui'
 #
-# Created: Sun Nov 02 15:35:00 2014
-#      by: PyQt4 UI code generator 4.9.1
+# Created: Sat Nov 29 16:45:41 2014
+#      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -51,19 +60,19 @@ class Ui_MainWindow(object):
         self.label_2 = QtGui.QLabel(self.groupBox_4)
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.horizontalLayout_11.addWidget(self.label_2)
-        self.startDateEdit = QtGui.QDateEdit(self.groupBox_4)
-        self.startDateEdit.setCalendarPopup(True)
-        self.startDateEdit.setDate(QtCore.QDate(2000, 1, 1))
-        self.startDateEdit.setObjectName(_fromUtf8("startDateEdit"))
-        self.horizontalLayout_11.addWidget(self.startDateEdit)
+        self.startDateEdit_1 = QtGui.QDateEdit(self.groupBox_4)
+        self.startDateEdit_1.setDate(QtCore.QDate(2000, 1, 1))
+        self.startDateEdit_1.setCalendarPopup(True)
+        self.startDateEdit_1.setObjectName(_fromUtf8("startDateEdit_1"))
+        self.horizontalLayout_11.addWidget(self.startDateEdit_1)
         self.label_3 = QtGui.QLabel(self.groupBox_4)
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.horizontalLayout_11.addWidget(self.label_3)
-        self.endDateEdit = QtGui.QDateEdit(self.groupBox_4)
-        self.endDateEdit.setCalendarPopup(True)
-        self.endDateEdit.setDate(QtCore.QDate(2014, 12, 30))
-        self.endDateEdit.setObjectName(_fromUtf8("endDateEdit"))
-        self.horizontalLayout_11.addWidget(self.endDateEdit)
+        self.endDateEdit_1 = QtGui.QDateEdit(self.groupBox_4)
+        self.endDateEdit_1.setDate(QtCore.QDate(2014, 12, 30))
+        self.endDateEdit_1.setCalendarPopup(True)
+        self.endDateEdit_1.setObjectName(_fromUtf8("endDateEdit_1"))
+        self.horizontalLayout_11.addWidget(self.endDateEdit_1)
         self.horizontalLayout_13.addLayout(self.horizontalLayout_11)
         self.queryBtn = QtGui.QPushButton(self.groupBox_4)
         self.queryBtn.setObjectName(_fromUtf8("queryBtn"))
@@ -98,16 +107,16 @@ class Ui_MainWindow(object):
         self.label_11.setObjectName(_fromUtf8("label_11"))
         self.horizontalLayout_18.addWidget(self.label_11)
         self.startDateEdit_2 = QtGui.QDateEdit(self.groupBox_6)
-        self.startDateEdit_2.setCalendarPopup(True)
         self.startDateEdit_2.setDate(QtCore.QDate(2000, 1, 1))
+        self.startDateEdit_2.setCalendarPopup(True)
         self.startDateEdit_2.setObjectName(_fromUtf8("startDateEdit_2"))
         self.horizontalLayout_18.addWidget(self.startDateEdit_2)
         self.label_12 = QtGui.QLabel(self.groupBox_6)
         self.label_12.setObjectName(_fromUtf8("label_12"))
         self.horizontalLayout_18.addWidget(self.label_12)
         self.endDateEdit_2 = QtGui.QDateEdit(self.groupBox_6)
-        self.endDateEdit_2.setCalendarPopup(True)
         self.endDateEdit_2.setDate(QtCore.QDate(2014, 12, 30))
+        self.endDateEdit_2.setCalendarPopup(True)
         self.endDateEdit_2.setObjectName(_fromUtf8("endDateEdit_2"))
         self.horizontalLayout_18.addWidget(self.endDateEdit_2)
         self.horizontalLayout_19.addLayout(self.horizontalLayout_18)
@@ -178,8 +187,8 @@ class Ui_MainWindow(object):
         self.label_7.setObjectName(_fromUtf8("label_7"))
         self.horizontalLayout_6.addWidget(self.label_7)
         self.endDateEdit_3 = QtGui.QDateEdit(self.groupBox_5)
-        self.endDateEdit_3.setCalendarPopup(True)
         self.endDateEdit_3.setDate(QtCore.QDate(2014, 1, 1))
+        self.endDateEdit_3.setCalendarPopup(True)
         self.endDateEdit_3.setObjectName(_fromUtf8("endDateEdit_3"))
         self.horizontalLayout_6.addWidget(self.endDateEdit_3)
         self.horizontalLayout_9.addLayout(self.horizontalLayout_6)
@@ -305,49 +314,49 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSortingEnabled(False)
         item = self.listWidget.item(0)
-        item.setText(QtGui.QApplication.translate("MainWindow", "分组1", None, QtGui.QApplication.UnicodeUTF8))
+        item.setText(_translate("MainWindow", "分组1", None))
         item = self.listWidget.item(1)
-        item.setText(QtGui.QApplication.translate("MainWindow", "分组2", None, QtGui.QApplication.UnicodeUTF8))
+        item.setText(_translate("MainWindow", "分组2", None))
         self.listWidget.setSortingEnabled(__sortingEnabled)
-        self.groupBox_4.setTitle(QtGui.QApplication.translate("MainWindow", "原始数据筛选", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("MainWindow", "开始日期：", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("MainWindow", "结束日期：", None, QtGui.QApplication.UnicodeUTF8))
-        self.queryBtn.setText(QtGui.QApplication.translate("MainWindow", "查询", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "原始数据：", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("MainWindow", "原始数据", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_6.setTitle(QtGui.QApplication.translate("MainWindow", "n日和筛选", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_11.setText(QtGui.QApplication.translate("MainWindow", "开始日期：", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_12.setText(QtGui.QApplication.translate("MainWindow", "结束日期：", None, QtGui.QApplication.UnicodeUTF8))
-        self.daySumRadio.setText(QtGui.QApplication.translate("MainWindow", "日和", None, QtGui.QApplication.UnicodeUTF8))
-        self.weekSumRadio.setText(QtGui.QApplication.translate("MainWindow", "周和", None, QtGui.QApplication.UnicodeUTF8))
-        self.monthSumRadio.setText(QtGui.QApplication.translate("MainWindow", "月和", None, QtGui.QApplication.UnicodeUTF8))
-        self.queryBtn_2.setText(QtGui.QApplication.translate("MainWindow", "查询", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_2.setTitle(QtGui.QApplication.translate("MainWindow", "n日数据", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QtGui.QApplication.translate("MainWindow", "n日和", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_5.setTitle(QtGui.QApplication.translate("MainWindow", "计算筛选", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("MainWindow", "比较日期：", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_7.setText(QtGui.QApplication.translate("MainWindow", "——", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_6.setText(QtGui.QApplication.translate("MainWindow", "比较方法", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_5.setText(QtGui.QApplication.translate("MainWindow", "比较指标：", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_8.setText(QtGui.QApplication.translate("MainWindow", "结果筛选：", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_9.setText(QtGui.QApplication.translate("MainWindow", ">=", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_10.setText(QtGui.QApplication.translate("MainWindow", "<=", None, QtGui.QApplication.UnicodeUTF8))
-        self.calculateBtn.setText(QtGui.QApplication.translate("MainWindow", "计算", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_3.setTitle(QtGui.QApplication.translate("MainWindow", "计算结果", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("MainWindow", "自定义计算", None, QtGui.QApplication.UnicodeUTF8))
-        self.showGroupBtn.setText(QtGui.QApplication.translate("MainWindow", "自选", None, QtGui.QApplication.UnicodeUTF8))
-        self.classifyBtn.setText(QtGui.QApplication.translate("MainWindow", "版块▲", None, QtGui.QApplication.UnicodeUTF8))
-        self.menu.setTitle(QtGui.QApplication.translate("MainWindow", "文件", None, QtGui.QApplication.UnicodeUTF8))
-        self.menu_2.setTitle(QtGui.QApplication.translate("MainWindow", "显示", None, QtGui.QApplication.UnicodeUTF8))
-        self.action.setText(QtGui.QApplication.translate("MainWindow", "设置列", None, QtGui.QApplication.UnicodeUTF8))
-        self.action_addGroup.setText(QtGui.QApplication.translate("MainWindow", "添加分组", None, QtGui.QApplication.UnicodeUTF8))
-        self.action_editGroup.setText(QtGui.QApplication.translate("MainWindow", "编辑分组", None, QtGui.QApplication.UnicodeUTF8))
-        self.action_showGroupView.setText(QtGui.QApplication.translate("MainWindow", "股票筛选", None, QtGui.QApplication.UnicodeUTF8))
-        self.action_deleteGroup.setText(QtGui.QApplication.translate("MainWindow", "删除分组", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_4.setTitle(_translate("MainWindow", "原始数据筛选", None))
+        self.label_2.setText(_translate("MainWindow", "开始日期：", None))
+        self.label_3.setText(_translate("MainWindow", "结束日期：", None))
+        self.queryBtn.setText(_translate("MainWindow", "查询", None))
+        self.groupBox.setTitle(_translate("MainWindow", "原始数据：", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "原始数据", None))
+        self.groupBox_6.setTitle(_translate("MainWindow", "n日和筛选", None))
+        self.label_11.setText(_translate("MainWindow", "开始日期：", None))
+        self.label_12.setText(_translate("MainWindow", "结束日期：", None))
+        self.daySumRadio.setText(_translate("MainWindow", "日和", None))
+        self.weekSumRadio.setText(_translate("MainWindow", "周和", None))
+        self.monthSumRadio.setText(_translate("MainWindow", "月和", None))
+        self.queryBtn_2.setText(_translate("MainWindow", "查询", None))
+        self.groupBox_2.setTitle(_translate("MainWindow", "n日数据", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "n日和", None))
+        self.groupBox_5.setTitle(_translate("MainWindow", "计算筛选", None))
+        self.label_4.setText(_translate("MainWindow", "比较日期：", None))
+        self.label_7.setText(_translate("MainWindow", "——", None))
+        self.label_6.setText(_translate("MainWindow", "比较方法", None))
+        self.label_5.setText(_translate("MainWindow", "比较指标：", None))
+        self.label_8.setText(_translate("MainWindow", "结果筛选：", None))
+        self.label_9.setText(_translate("MainWindow", ">=", None))
+        self.label_10.setText(_translate("MainWindow", "<=", None))
+        self.calculateBtn.setText(_translate("MainWindow", "计算", None))
+        self.groupBox_3.setTitle(_translate("MainWindow", "计算结果", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "自定义计算", None))
+        self.showGroupBtn.setText(_translate("MainWindow", "自选", None))
+        self.classifyBtn.setText(_translate("MainWindow", "版块▲", None))
+        self.menu.setTitle(_translate("MainWindow", "文件", None))
+        self.menu_2.setTitle(_translate("MainWindow", "显示", None))
+        self.action.setText(_translate("MainWindow", "设置列", None))
+        self.action_addGroup.setText(_translate("MainWindow", "添加分组", None))
+        self.action_editGroup.setText(_translate("MainWindow", "编辑分组", None))
+        self.action_showGroupView.setText(_translate("MainWindow", "股票筛选", None))
+        self.action_deleteGroup.setText(_translate("MainWindow", "删除分组", None))
 
 from MyTable import MyTable
 

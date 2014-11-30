@@ -32,8 +32,9 @@ class MyMenu(QMenu):
         menu.addAction(action)
     
     def addMyActions(self):
+        self.addMyAction(self, u'全部', 'CLASS_6_0')
         self.addMyAction(self, u'开盘=收盘=最高=最低', 'CLASS_0_0')
-        
+
         subMenu = QMenu(self)
         subMenu.setTitle(u'振幅分档')
         self.addMyAction(subMenu, u'振幅 < 2%', 'CLASS_1_0')
@@ -89,13 +90,13 @@ class MyMenu(QMenu):
             sssubMenu = QMenu(ssubMenu)
             sssubMenu.setTitle(u'季度分档')
             for i in range(1, 5):
-                self.addMyAction(sssubMenu, u'第 %d 季度' %i, 'CLASS_5_%d' %tmpCount)
+                self.addMyAction(sssubMenu, u'第 %d 季度' %i, 'CLASS_5_%d.%d' %(tmpCount, year))
                 tmpCount += 1
             ssubMenu.addMenu(sssubMenu)
             sssubMenu = QMenu(ssubMenu)
             sssubMenu.setTitle(u'月份分档')
             for month in range(1, 13):
-                self.addMyAction(sssubMenu, u'%d 月' %month, 'CLASS_5_%d' %tmpCount)
+                self.addMyAction(sssubMenu, u'%d 月' %month, 'CLASS_5_%d.%d' %(tmpCount, year))
                 tmpCount += 1
             ssubMenu.addMenu(sssubMenu)
             subMenu.addMenu(ssubMenu)

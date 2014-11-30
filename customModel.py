@@ -85,7 +85,13 @@ class CustomModel(QAbstractTableModel):
     def removeFilter(self):
         if 'filter' in self.args:
             self.args.pop('filter')   
-    
+        if 'filter' in self.qArgs:
+            self.qArgs.pop('filter')  
+            
+    def setFilter(self, f):
+        self.args['filter'] = f
+        self.qArgs['filter'] = f
+        
     def getArgs(self):
         return self.args
     
@@ -102,6 +108,7 @@ class CustomModel(QAbstractTableModel):
             self.args.pop('weeks')
         if self.qArgs == args:
             log('args is the same return')
+            QMessageBox.warning(self.parent,'warning',  u'参数相同，无须重新查询')
             return
         else:
             for key in args:
@@ -169,11 +176,11 @@ class CustomModel(QAbstractTableModel):
         展示所有数据，这儿为了防止一次传输的数据量太大，做了一定的限制
         """
         if self.restApi != '' and self.totalCount != 0:
-            if self.restApi == 'liststockdayinfo' and self.totalCount > 2000:
-                QMessageBox.warning(self.parent,'warning', u'基础数据显示全部不能超过2000行')
+            if self.restApi == 'liststockdayinfo' and self.totalCount > 100000:
+                QMessageBox.warning(self.parent,'warning', u'基础数据显示全部不能超过100000行')
                 return
-            elif self.restApi == 'listdaysum' or self.restApi == 'listweeksum' or self.restApi == 'listmonthsum' and self.totalCount > 50000:
-                QMessageBox.warning(self.parent,'warning', u'n日和数据显示全部不能超过50000行')
+            elif self.restApi == 'listdaysum' or self.restApi == 'listweeksum' or self.restApi == 'listmonthsum' and self.totalCount > 200000:
+                QMessageBox.warning(self.parent,'warning', u'n日和数据显示全部不能超过200000行')
                 return
             self.args['page'] = 1
             self.args['pagesize'] = self.totalCount;
@@ -296,6 +303,7 @@ class CustomModel(QAbstractTableModel):
 #                log(value)
                 row = []
                 countAppearedKey = []
+                
                 for key in self.columnNames[:]:
                     if key in countAppearedKey:         #columnNames中可能会出现重复的一些指标，这里防止重复的指标重复显示
                         continue
@@ -346,22 +354,8 @@ class CustomModel(QAbstractTableModel):
                                 val /= myGlobal.reCalcTable[tmpKey]
                                 val = u'%4.4f' %val
                                 row.append(val)
-                        
-                    
-#                    if key == 'total_money':
-#                        
-#                        val = float(value[key])
-#                        val /= 100000000
-#                        val = u'%.4f亿' %val
-#                        row.append(val)
-#                    else:
-                    
-                    
-                    
+                             
                     countAppearedKey.append(key)
-                    
-                    
-                
 
                 if self.restApi == 'liststockdaysdiff' or self.restApi == 'listgrowthampdis' or self.restApi == 'listndayssum':
                     if not headerSet:
@@ -425,6 +419,7 @@ class CustomModel(QAbstractTableModel):
                                         self.headers.append(translate(key))
                             self.columnNames.append(key)
                 
+                
                 if self.restApi != 'liststockdayinfo' and self.restApi != 'listgrowthampdis':
                     for k in range(1, len(row)):
                         try:
@@ -433,8 +428,8 @@ class CustomModel(QAbstractTableModel):
                         except:
                             val = row[k]
                         row[k] = val
+                
                 headerSet = True
-#                log(row)
                 self.datas.append(row)   
             
             if self.restApi == 'listdaysum' or self.restApi == 'listweeksum' or self.restApi == 'listmonthsum':
@@ -443,8 +438,6 @@ class CustomModel(QAbstractTableModel):
                     self.headers.insert(1,  u'开始日期')
                     self.columnNames.insert(1, 'created')
                 
-#                log(self.args)
-#                log(self.qArgs)
                 for row in self.datas[self.lastRowCount:]:
                     try:
                         curDate = datetime.datetime.strptime(row[1],"%Y-%m-%dT%H:%M:%S")
@@ -475,7 +468,7 @@ class CustomModel(QAbstractTableModel):
                     row.insert(1,  myGlobal.id2name[str(row[0])])
                 else:
                     row.insert(1,  u'未知名称');
-                    
+            
                         
         except:
             self.headers = []

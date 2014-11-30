@@ -68,7 +68,7 @@ class FreezeTableWidget(QTableView):
         
         self.frozenTableView.setSortingEnabled(True)
         self.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers);
-        self.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
         self.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.setSortingEnabled(True)
         self.setModel(model)

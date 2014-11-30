@@ -10,7 +10,8 @@ from PyQt4.QtCore import pyqtSignature,  SIGNAL
 
 from Ui_MyTable import Ui_Form
 import platform
-import log
+from log import log
+import threading
 
 class MyTable(QWidget, Ui_Form):
     """
@@ -64,6 +65,7 @@ class MyTable(QWidget, Ui_Form):
         #print 'mytable init'
         
         self.connect(model, SIGNAL("layoutChanged()"),  self.__init)
+        self.connect(self, SIGNAL("progressChanged(int,int)"),  self.setProgress)
         
     def getView(self):
         return self.tableView
@@ -108,6 +110,7 @@ class MyTable(QWidget, Ui_Form):
             curPos = cur.pos()
             menu = QMenu(self);
             menu.addAction(self.actionDump);
+            menu.addAction(self.actionDumpSelected);
             menu.exec_(curPos);
     
     @pyqtSignature("")
@@ -117,50 +120,119 @@ class MyTable(QWidget, Ui_Form):
         """
         # TODO: not implemented yet
         #raise NotImplementedError
-        self.doExport(self.model)
+        self.doExport(self.model,  None)
+        
+    @pyqtSignature("")
+    def on_actionDumpSelected_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        #raise NotImplementedError
+        filter = []
+        for selected in self.tableView.selectedIndexes():
+            if selected.row() not in filter:
+                filter.append(selected.row())
+            else:
+                break
+        
+        self.doExport(self.model,  filter)
     
-    def doExport(self,  model):
+    def setProgress(self, value, totalCount):
+        self.progressDialog.setLabelText (u"正在导出 (%d/%d)" %(value,  totalCount))
+        self.progressDialog.setValue(value)
+    
+    def adjustEncode(self, s, fileName, index):
+        ret = s
+        flag = False
+        if index > 0:
+            try:
+                ret = float(s)
+                flag = True
+            except:
+                pass
+        if not flag and platform.system() == 'Windows':
+            if fileName.endswith('.csv'):
+                try:
+                    ret = s.encode('gbk')
+                except:
+                    pass
+        return str(ret)
+    
+    def exportThreadFunc(self, model, filter, fileName):
+        headers = []
+        for j in range(model.columnCount()):
+            try:
+                headers.append(self.adjustEncode(str(model.headerData(j, QtCore.Qt.Horizontal).toString().toUtf8()).decode('utf-8'), fileName, j))
+            except:
+                headers.append(self.adjustEncode(str(model.headerData(j, QtCore.Qt.Horizontal).toUtf8()).decode('utf-8'), fileName, j))
+            
+        f = open(fileName,  'ab')
+        f.write(','.join(headers)+'\r\n')
+        if filter is not None:
+            totalCount = len(filter)
+        else:
+            totalCount = model.rowCount()
+        count = 0
+        datas = []
+        for i in range(model.rowCount()):
+            row = []
+            if filter is not None and i not in filter:
+                continue
+            for j in range(model.columnCount()):
+                try:
+                    row.append(self.adjustEncode(str(model.data(model.index(i, j))), fileName, j))
+                except:
+                    row.append(self.adjustEncode(model.data(model.index(i, j)), fileName, j))
+            if self.progressDialog.wasCanceled():
+                f.close()
+                return
+            
+            
+            count += 1
+            datas.append(row)
+            if fileName.endswith('.xlsx') or fileName.endswith('.csv'):
+                row[0] = '="%s"'%row[0]
+            f.write(','.join(row)+'\r\n')
+            self.emit(SIGNAL("progressChanged(int,int)"), count, totalCount)
+        
+        f.close()
+#        print '-----start'
+#        datas=tablib.Dataset(*datas,headers=headers)
+#        print '-----start2'
+#        if fileName.endswith('.csv'):
+#            f.write(datas.csv)
+#        elif fileName.endswith('.xls'):
+#            f.write(datas.xls)
+#        elif fileName.endswith('.xlsx'):
+#            f.write(datas.xlsx)
+#        
+#        print datas.xlsx
+#        print '-----end'
+#        f.close()
+#        self.emit(SIGNAL("progressChanged(int,int)"), totalCount, totalCount)
+        
+    def doExport(self,  model, filter):
 #        print model.rowCount()
         if model.rowCount() < 1:
             QMessageBox.warning(self,'warning', "导出内容为空")
             return
-        fileName = QFileDialog.getSaveFileName(self,self.tr('Save csv'),'',self.tr("*.csv"))
+        fileName = QFileDialog.getSaveFileName(self,self.tr('Save Contents'),'', u"csv文件 (*.csv)")
         if not fileName:
             return
         if platform.system() == 'Windows':
             fileName = str(fileName.toUtf8()).decode('utf-8').encode('gbk')
         else:
             fileName = str(fileName.toUtf8())
-        content = ''
-        for j in range(model.columnCount()):
-            try:
-                content += str(model.headerData(j,  QtCore.Qt.Horizontal).toString().toUtf8())+ ','
-            except:
-                content += str(model.headerData(j,  QtCore.Qt.Horizontal).toUtf8())+ ','
-#        for j in range(model.columnCount()):
-#            content += str(model2.headerData(j,  QtCore.Qt.Horizontal).toString().toUtf8())+ ','
-        content = content[:-1] + '\r\n'
-        progressDialog = QProgressDialog(u"正在导出 (%d/%d)" %(0,  model.rowCount()), u"取消", 0, model.rowCount(), self)
-        for i in range(model.rowCount()):
-            for j in range(model.columnCount()):
-                try:
-                    content += str(model.data(model.index(i, j))).encode('utf-8') + ','
-                except:
-                    content += model.data(model.index(i, j)).encode('utf-8') + ','
-#                try:
-#                    content += str(model.data(model.index(i, j)).toString().toUtf8())+ ','
-#                except:
-#                    content += str(model.data(model.index(i, j)).toUtf8())+ ','
-#            for j in range(model2.columnCount()):
-#                content += str(model2.data(model2.index(i, j)).toString().toUtf8())+ ','
-            content = content[:-1] + '\r\n'
-            if  progressDialog.wasCanceled():
-                return
-            progressDialog.setLabelText (u"正在导出 (%d/%d)" %(i+1,  model.rowCount()))
-            progressDialog.setValue(i+1)
-            
-        if platform.system() == 'Windows':
-            content = content.decode('utf-8').encode('gbk')
-        f = open(fileName,  'wb')
-        f.write(content)
-        f.close()
+        if filter is not None:
+            totalCount = len(filter)
+        else:
+            totalCount = model.rowCount()
+        self.progressDialog = QProgressDialog(u"正在导出 (%d/%d)" %(0,  totalCount), u"取消", 0, totalCount, self)
+        thread = threading.Thread(target = self.exportThreadFunc,  args=(model,  filter, fileName))
+        thread.setDaemon(True)
+        thread.start()
+        
+#        self.progressDialog.exec_()
+    
+

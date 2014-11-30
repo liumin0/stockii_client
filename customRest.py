@@ -56,75 +56,79 @@ class myurllib():
             log('innerFilterType', switchType, subType)
             if switchType == '0':
                 condition = { 
-                 '0': u'z.today_begin_price=z.current_price and z.max=z.min and z.current_price=z.max',     #开盘=收盘=最高=最低
+                 '0': u' and z.today_begin_price=z.current_price and z.max=z.min and z.current_price=z.max',     #开盘=收盘=最高=最低
                 }[subType]
             elif switchType == '1':
                 condition = {
-                 '0': u'z.amplitude_ratio<2',                                       #振幅 < 2%
-                 '1': u'amplitude_ratio=0'                                          #振幅 = 0
+                 '0': u' and z.amplitude_ratio<2',                                       #振幅 < 2%
+                 '1': u' and amplitude_ratio=0'                                          #振幅 = 0
                 }[subType]
             elif switchType == '2':
                 condition = {
-                 '0': u'z.sold_price=0 and z.growth_ratio>4.9',                        #u'卖价 = 0, 涨幅 > 4.9%'
-                 '1': u'z.bought_price=0 and z.growth_ratio<-4.9'                      #u'买价 = 0, 涨幅 < -4.9%'
+                 '0': u' and z.sold_price=0 and z.growth_ratio>4.9',                        #u'卖价 = 0, 涨幅 > 4.9%'
+                 '1': u' and z.bought_price=0 and z.growth_ratio<-4.9'                      #u'买价 = 0, 涨幅 < -4.9%'
                 }[subType]
             elif switchType == '3':
                 condition = {
-                 '0': u'z.total_money<99990000',                                    #u'总金额 < 0.9999亿'
-                 '1': u'z.total_money<199990000 and z.total_money>100000000',       #u'总金额 1 ~ 1.9999亿'
-                 '2': u'z.total_money<499990000 and z.total_money>200000000',       #u'总金额 2 ~ 4.9999亿'
-                 '3': u'z.total_money>=500000000',                                  #u'总金额 >= 5亿', 
-                 '4': u'z.total_money>900000000',                                   #u'总金额 >  9亿', 
-                 '5': u'z.total_money<1500000000',                                  #u'总金额 >  15亿'
-                 '6': u'z.total_money>2000000000',                                  #u'总金额 >  20亿'
-                 '7': u'z.total_money>2500000000',                                  #u'总金额 >  25亿'
-                 '8': u'z.total_money>3000000000',                                  #u'总金额 >  30亿'
-                 '9': u'z.total_money>4000000000'                                   #u'总金额 >  40亿'  
+                 '0': u' and z.total_money<99990000',                                    #u'总金额 < 0.9999亿'
+                 '1': u' and z.total_money<199990000 and z.total_money>100000000',       #u'总金额 1 ~ 1.9999亿'
+                 '2': u' and z.total_money<499990000 and z.total_money>200000000',       #u'总金额 2 ~ 4.9999亿'
+                 '3': u' and z.total_money>=500000000',                                  #u'总金额 >= 5亿', 
+                 '4': u' and z.total_money>900000000',                                   #u'总金额 >  9亿', 
+                 '5': u' and z.total_money<1500000000',                                  #u'总金额 >  15亿'
+                 '6': u' and z.total_money>2000000000',                                  #u'总金额 >  20亿'
+                 '7': u' and z.total_money>2500000000',                                  #u'总金额 >  25亿'
+                 '8': u' and z.total_money>3000000000',                                  #u'总金额 >  30亿'
+                 '9': u' and z.total_money>4000000000'                                   #u'总金额 >  40亿'  
                 }[subType]
             elif switchType == '4':
                 condition = {
-                 '0': u'z.turnover_ratio<0.9999',                                    #u'换手率 < 0.9999%'
-                 '1': u'z.turnover_ratio<2.9999 and z.turnover_ratio>=1',            #u'换手率 1% ~ 2.9999%'
-                 '2': u'z.turnover_ratio<4.9999 and z.turnover_ratio>=3',            #u'换手率 3% ~ 4.9999%'
-                 '3': u'z.turnover_ratio<6.9999 and z.turnover_ratio>=5',            #u'换手率 5% ~ 6.9999%'
-                 '4': u'z.turnover_ratio<9.9999 and z.turnover_ratio>=7',            #u'换手率 7% ~ 9.9999%'
-                 '5': u'z.turnover_ratio>=10',                                       #u'换手率 >= 10%'
-                 '6': u'z.turnover_ratio>15',                                        #u'换手率 > 15%'
-                 '7': u'z.turnover_ratio>20',                                        #u'换手率 > 20%'
-                 '8': u'z.turnover_ratio>25',                                        #u'换手率 > 25%'
-                 '9': u'z.turnover_ratio>30',                                        #u'换手率 > 30%'
-                 '10': u'z.turnover_ratio>35',                                       #u'换手率 > 35%'
-                 '11': u'z.turnover_ratio>40',                                       #u'换手率 > 40%'
-                 '12': u'z.turnover_ratio>45',                                       #u'换手率 > 45%'
-                 '13': u'z.turnover_ratio>50',                                       #u'换手率 > 50%'
-                 '14': u'z.turnover_ratio>60',                                       #u'换手率 > 60%'
+                 '0': u' and z.turnover_ratio<0.9999',                                    #u'换手率 < 0.9999%'
+                 '1': u' and z.turnover_ratio<2.9999 and z.turnover_ratio>=1',            #u'换手率 1% ~ 2.9999%'
+                 '2': u' and z.turnover_ratio<4.9999 and z.turnover_ratio>=3',            #u'换手率 3% ~ 4.9999%'
+                 '3': u' and z.turnover_ratio<6.9999 and z.turnover_ratio>=5',            #u'换手率 5% ~ 6.9999%'
+                 '4': u' and z.turnover_ratio<9.9999 and z.turnover_ratio>=7',            #u'换手率 7% ~ 9.9999%'
+                 '5': u' and z.turnover_ratio>=10',                                       #u'换手率 >= 10%'
+                 '6': u' and z.turnover_ratio>15',                                        #u'换手率 > 15%'
+                 '7': u' and z.turnover_ratio>20',                                        #u'换手率 > 20%'
+                 '8': u' and z.turnover_ratio>25',                                        #u'换手率 > 25%'
+                 '9': u' and z.turnover_ratio>30',                                        #u'换手率 > 30%'
+                 '10': u' and z.turnover_ratio>35',                                       #u'换手率 > 35%'
+                 '11': u' and z.turnover_ratio>40',                                       #u'换手率 > 40%'
+                 '12': u' and z.turnover_ratio>45',                                       #u'换手率 > 45%'
+                 '13': u' and z.turnover_ratio>50',                                       #u'换手率 > 50%'
+                 '14': u' and z.turnover_ratio>60',                                       #u'换手率 > 60%'
                 }[subType]
             elif switchType == '5':
+                subTypeL = subType.split('.')
+                subType = subTypeL[0]
                 condition = {
-                 '0': u'MONTH(z.created)<4',                                         #u'第 1 季度'
-                 '1': u'MONTH(z.created)<7 and MONTH(z.created)>=4',                 #u'第 2 季度'
-                 '2': u'MONTH(z.created)<10 and MONTH(z.created)>=7',                #u'第 3 季度'
-                 '3': u'MONTH(z.created)<=12 and MONTH(z.created)>=10',              #u'第 4 季度'
-                 '4': u'MONTH(z.created)=1',                                         #u'1 月'
-                 '5': u'MONTH(z.created)=2',                                         #u'2 月'
-                 '6': u'MONTH(z.created)=3',                                         #u'3 月'
-                 '7': u'MONTH(z.created)=4',                                         #u'4 月'
-                 '8': u'MONTH(z.created)=5',                                         #u'5 月'
-                 '9': u'MONTH(z.created)=6',                                         #u'6 月'
-                 '10': u'MONTH(z.created)=7',                                        #u'7 月'
-                 '11': u'MONTH(z.created)=8',                                        #u'8 月'
-                 '12': u'MONTH(z.created)=9',                                        #u'9 月'
-                 '13': u'MONTH(z.created)=10',                                       #u'10 月'
-                 '14': u'MONTH(z.created)=11',                                       #u'11 月'
-                 '14': u'MONTH(z.created)=12',                                       #u'12 月'
+                 '0': u' and MONTH(z.created)<4',                                         #u'第 1 季度'
+                 '1': u' and MONTH(z.created)<7 and MONTH(z.created)>=4',                 #u'第 2 季度'
+                 '2': u' and MONTH(z.created)<10 and MONTH(z.created)>=7',                #u'第 3 季度'
+                 '3': u' and MONTH(z.created)<=12 and MONTH(z.created)>=10',              #u'第 4 季度'
+                 '4': u' and MONTH(z.created)=1',                                         #u'1 月'
+                 '5': u' and MONTH(z.created)=2',                                         #u'2 月'
+                 '6': u' and MONTH(z.created)=3',                                         #u'3 月'
+                 '7': u' and MONTH(z.created)=4',                                         #u'4 月'
+                 '8': u' and MONTH(z.created)=5',                                         #u'5 月'
+                 '9': u' and MONTH(z.created)=6',                                         #u'6 月'
+                 '10': u' and MONTH(z.created)=7',                                        #u'7 月'
+                 '11': u' and MONTH(z.created)=8',                                        #u'8 月'
+                 '12': u' and MONTH(z.created)=9',                                        #u'9 月'
+                 '13': u' and MONTH(z.created)=10',                                       #u'10 月'
+                 '14': u' and MONTH(z.created)=11',                                       #u'11 月'
+                 '14': u' and MONTH(z.created)=12',                                       #u'12 月'
                 }[subType]
+            elif switchType == '5':
+                condition = ''
             else:
                 log('Unkown filter')
                 
             if flag == 'FLAG_UP':
-                tableFilter = u'y.ty_minus>0' 
+                tableFilter = u' and y.ty_minus>0' 
             else:
-                tableFilter = u'y.yt_minus>0' 
+                tableFilter = u' and y.yt_minus>0' 
         except:
             log('Exception')
         
@@ -165,7 +169,7 @@ class myurllib():
             if 'filter' in args:
                 innerFilterType = args['filter']
                 tableFilter, condition = self.parseInnerFilter(innerFilterType)
-                filter += ' and y.stock_id=z.stock_id and y.created=z.created and %s and %s' %(tableFilter, condition)
+                filter += ' and y.stock_id=z.stock_id and y.created=z.created %s %s' %(tableFilter, condition)
                 countSql = 'select count(*) from stock_day_info z, twodaysdifference y where ' + filter
             else:
                 countSql = 'select count(*) from stock_day_info z where ' + filter
@@ -248,6 +252,9 @@ class myurllib():
                 row['num3_buy_price'] = str(self.query.value(cCount + 37).toString().toUtf8())
                 row['num3_sell_price'] = str(self.query.value(cCount + 38).toString().toUtf8())
                 row['circulation_value'] = str(self.query.value(cCount + 39).toString().toUtf8())
+#                if u'亿'.encode('utf-8') in row['circulation_value']:
+#                    log("======================")
+#                    row['circulation_value'] = row['circulation_value'].replace(u'亿'.encode('utf-8'), '')
                 row['bbi_balance'] = str(self.query.value(cCount + 40).toString().toUtf8())
                 row['bull_profit'] = str(self.query.value(cCount + 41).toString().toUtf8())
                 row['bull_stop_losses'] = str(self.query.value(cCount + 42).toString().toUtf8())
@@ -308,7 +315,7 @@ class myurllib():
             if 'filter' in args:
                 innerFilterType = args['filter']
                 tableFilter, condition = self.parseInnerFilter(innerFilterType)
-                filter += ' and x.stock_id=y.stock_id and x.created=y.created and y.stock_id=z.stock_id and y.created=z.created and %s and %s' %(tableFilter, condition)
+                filter += ' and x.stock_id=y.stock_id and x.created=y.created and y.stock_id=z.stock_id and y.created=z.created %s %s' %(tableFilter, condition)
                 countSql = 'select count(*) from %s x, stock_day_info z, twodaysdifference y where ' %tableName + filter
             else:
                 countSql = 'select count(*) from %s x where ' %tableName + filter
@@ -488,7 +495,7 @@ class myurllib():
             
             if opt == 'maxmin' or opt == 'maxmindivide':
 #                sql = 'select a.stock_id,a.created from stock_day_info as a, (select stock_id, max(%s) as ma from stock_day_info where stock_day_info.created >="%s" and stock_day_info.created <="%s" GROUP BY stock_id) as c where a.stock_id = c.stock_id and c.ma = a.%s and a.created >= "%s" and a.created <= "%s"' %(optName, startD, endD, optName, startD, endD)
-                sql = 'select a.stock_id, a.created from (select stock_id, created, %s from stock_day_info where created >="%s" and created <="%s" order by %s desc) as a' %(optName, startD, endD, optName)
+                sql = 'select a.stock_id, a.created from (select stock_id, created, %s from stock_day_info where created >="%s" and created <="%s" and %s > 0 order by %s desc) as a' %(optName, startD, endD, optName, optName)
  
                 if filter is not None:
                     sql += ' where a.' + filter
@@ -510,7 +517,7 @@ class myurllib():
                 self.query.clear()
                 log('[*]',  'scan ')
 #                sql = 'select a.stock_id,a.created from stock_day_info as a, (select stock_id, min(%s) as ma from stock_day_info where stock_day_info.created >="%s" and stock_day_info.created <="%s" GROUP BY stock_id) as c where a.stock_id = c.stock_id and c.ma = a.%s and a.created >= "%s" and a.created <= "%s"' %(optName, startD, endD, optName, startD, endD)
-                sql = 'select a.stock_id, a.created from (select stock_id, created, %s from stock_day_info where created >="%s" and created <="%s" order by %s asc) as a' %(optName, startD, endD, optName)
+                sql = 'select a.stock_id, a.created from (select stock_id, created, %s from stock_day_info where created >="%s" and created <="%s" and %s > 0 order by %s asc) as a' %(optName, startD, endD, optName, optName)
 
                 
                 if filter is not None:

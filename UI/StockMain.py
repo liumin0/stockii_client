@@ -41,17 +41,21 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.on_daySumRadio_clicked()
         self.initCmpMethCombo()
         self.initCmpTypeCombo()
+        self.filter = ''
 #        myGlobal.init()
 #        myGlobal.initDealDays()
         self.dayInfoModel = CustomModel(self)
         self.dayInfoModel.setRestApi('liststockdayinfo')
+        self.dayInfoModel.setPageSize(10000)
         self.calcModel = CustomModel(self)
         self.calcModel.setRestApi('listmonthsum')
-        self.calcModel.setPageSize(5000)
+        self.calcModel.setPageSize(20000)
         self.calcModel2 = CustomModel(self)
         self.calcModel2.setRestApi('liststockdaysdiff')
         self.calcModel2.setPageSize(10000)
         self.classifyMenu = None
+        self.startDate = QDate.currentDate()
+        self.endDate = self.startDate.addDays(-1)
         self.calcTableWidget.setButtonsVisible(False)
         #self.treeWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu);
         savedSetting = config.readSetting()
@@ -62,22 +66,25 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.updateFilter()
         self.listWidget.setVisible(False)
         self.listWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu);
-        self.initTime()
+        self.modifyDateEdit()
         self.showGroupBtn.setChecked(True)
         self.on_showGroupBtn_clicked()
         self.showMaximized()
         
+    def modifyDateEdit(self):
+        curIndex = self.tabWidget.currentIndex()
+        if curIndex == 0:
+            self.startDateEdit = self.startDateEdit_1
+            self.endDateEdit = self.endDateEdit_1
+        elif curIndex == 1:
+            self.startDateEdit = self.startDateEdit_2
+            self.endDateEdit = self.endDateEdit_2
+        elif curIndex == 2:
+            self.startDateEdit = self.startDateEdit_3
+            self.endDateEdit = self.endDateEdit_3
         
-    def initTime(self):
-        nowDate = QDate.currentDate ()
-        self.endDateEdit.setDate(nowDate)
-        self.endDateEdit_2.setDate(nowDate)
-        self.endDateEdit_3.setDate(nowDate)
-        
-        yesterday = nowDate.addDays(-1)
-        self.startDateEdit.setDate(yesterday)
-        self.startDateEdit_2.setDate(yesterday)
-        self.startDateEdit_3.setDate(yesterday)
+        self.startDateEdit.setDate(self.startDate)
+        self.endDateEdit.setDate(self.endDate)
         
     def updateFilter(self):
         self.listWidget.clear()
@@ -176,7 +183,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
         for item in items:
             self.numCombo.addItem(item)
     
-    def chooseNearDate(self, d):
+    def chooseNearDate(self, d, ):
         lastDate = ''
         for tmpDate in myGlobal.dealDays:
             
@@ -189,7 +196,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
         
         return lastDate.strftime("%Y-%m-%d") + u', 无'
     
-    def testDate(self,  startD, endD):
+    def testDate(self, startD, endD):
         if startD >= endD:
             QMessageBox.warning(self,'warning', u'开始时间大于或等于结束时间')
             return False
@@ -218,7 +225,8 @@ class StockMain(QMainWindow, Ui_MainWindow):
         
         startD = self.startDateEdit.date().toPyDate()
         endD = self.endDateEdit.date().toPyDate()
-        
+        self.startDate = self.startDateEdit.date()
+        self.endDate = self.endDateEdit.date()
         if not self.testDate(startD, endD):
             return
         
@@ -246,7 +254,8 @@ class StockMain(QMainWindow, Ui_MainWindow):
         
         startD = self.startDateEdit_2.date().toPyDate()
         endD = self.endDateEdit_2.date().toPyDate()
-        
+        self.startDate = self.startDateEdit.date()
+        self.endDate = self.endDateEdit.date()
         #response=json&page=2&pagesize=20&stockid=000001,000002,000003,000004,000005&starttime=2008-09-24&sortname=turnover_ratio
         if not self.testDate(startD, endD):
             return
@@ -440,6 +449,8 @@ class StockMain(QMainWindow, Ui_MainWindow):
             return
         startD = self.startDateEdit_3.date().toPyDate()
         endD = self.endDateEdit_3.date().toPyDate()
+        self.startDate = self.startDateEdit.date()
+        self.endDate = self.endDateEdit.date()
         if not self.testDate(startD, endD):
             return
         #response=json&page=2&pagesize=20&stockid=000001,000002,000003,000004,000005&starttime=2008-09-24&sortname=turnover_ratio
@@ -493,6 +504,14 @@ class StockMain(QMainWindow, Ui_MainWindow):
         """
         # TODO: not implemented yet
 #        raise NotImplementedError
+        self.modifyDateEdit()
+        self.clearClassify()
+        if index == 0:
+            self.dayInfoModel.removeFilter()
+        elif index == 1:
+            self.calcModel.removeFilter()
+        elif index == 2:
+            self.calcModel2.removeFilter()
     
     def changeIds(self,  ids):
         log.log('ChangeIds')
@@ -592,22 +611,47 @@ class StockMain(QMainWindow, Ui_MainWindow):
             QMessageBox.warning(self,'warning', u'未知分组')
             return
         self.ids = self.groups[self.selectedGroup]
-        log.log('self.ids:',  self.ids)
+#        log.log('self.ids:',  self.ids)
         self.clearClassify()
         #raise NotImplementedError
-    
+    def detailClassifyDate(self, arg):
+        clz, switchType, subType = arg.split('_')
+        if switchType != '5':
+            return
+        subTypeL = subType.split('.')
+        subType = subTypeL[0]
+        year = int(subTypeL[1])
+        self.startDate, self.endDate = {
+         '0': (QDate(year, 1, 1), QDate(year, 3, 31)),                                          #u'第 1 季度'
+         '1': (QDate(year, 4, 1), QDate(year, 6, 30)),                                          #u'第 2 季度'
+         '2': (QDate(year, 7, 1), QDate(year, 9, 30)),                                          #u'第 3 季度'
+         '3': (QDate(year, 10, 1), QDate(year, 12, 31)),                                        #u'第 4 季度'
+         '4': (QDate(year, 1, 1), QDate(year, 2, 1).addDays(-1)),                               #u'1 月'
+         '5': (QDate(year, 2, 1), QDate(year, 3, 1).addDays(-1)),                               #u'2 月'
+         '6': (QDate(year, 3, 1), QDate(year, 4, 1).addDays(-1)),                               #u'3 月'
+         '7': (QDate(year, 4, 1), QDate(year, 5, 1).addDays(-1)),                               #u'4 月'
+         '8': (QDate(year, 5, 1), QDate(year, 6, 1).addDays(-1)),                               #u'5 月'
+         '9': (QDate(year, 6, 1), QDate(year, 7, 1).addDays(-1)),                               #u'6 月'
+         '10': (QDate(year, 7, 1), QDate(year, 8, 1).addDays(-1)),                              #u'7 月'
+         '11': (QDate(year, 8, 1), QDate(year, 9, 1).addDays(-1)),                              #u'8 月'
+         '12': (QDate(year, 9, 1), QDate(year, 10, 1).addDays(-1)),                             #u'9 月'
+         '13': (QDate(year, 10, 1), QDate(year, 11, 1).addDays(-1)),                            #u'10 月'
+         '14': (QDate(year, 11, 1), QDate(year, 12, 1).addDays(-1)),                            #u'11 月'
+         '14': (QDate(year, 12, 1), QDate(year, 12, 31)),                                       #u'12 月'
+        }[subType]
+        self.modifyDateEdit()
+        
     def detailClassify(self, type, arg):
         curIndex = self.tabWidget.currentIndex()
+        self.detailClassifyDate(arg)
+        
         if curIndex == 0:
-            orgArgs = self.dayInfoModel.getArgs()
-            orgArgs['filter'] = type + '#' + arg
-            self.dayInfoModel.setRestArgs(orgArgs)
+            self.dayInfoModel.setFilter(type + '#' + arg)
+            self.on_queryBtn_clicked()
         elif curIndex == 1:
-            orgArgs = self.calcModel.getArgs()
-            orgArgs['filter'] = type + '#' + arg
-            self.calcModel.setRestArgs(orgArgs)
+            self.calcModel.setFilter(type + '#' + arg)
+            self.on_queryBtn_2_clicked()
         elif curIndex == 2:
-            orgArgs = self.calcModel2.getArgs()
-            orgArgs['filter'] = type + '#' + arg
-            self.calcModel2.setRestArgs(orgArgs)
+            self.calcModel2.setFilter(type + '#' + arg)
+            self.on_calculateBtn_clicked()
     

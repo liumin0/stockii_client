@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'C:\WorkSpace\eric4\stockii\stockii_client\UI\MyTable.ui'
 #
-# Created: Sun Nov 02 11:13:46 2014
-#      by: PyQt4 UI code generator 4.9.1
+# Created: Sat Nov 29 15:06:11 2014
+#      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,7 +12,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -41,16 +50,19 @@ class Ui_Form(object):
         self.verticalLayout.addLayout(self.horizontalLayout_16)
         self.actionDump = QtGui.QAction(Form)
         self.actionDump.setObjectName(_fromUtf8("actionDump"))
+        self.actionDumpSelected = QtGui.QAction(Form)
+        self.actionDumpSelected.setObjectName(_fromUtf8("actionDumpSelected"))
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QtGui.QApplication.translate("Form", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.showMoreBtn.setText(QtGui.QApplication.translate("Form", "显示更多", None, QtGui.QApplication.UnicodeUTF8))
-        self.curPageLabel.setText(QtGui.QApplication.translate("Form", "0/0", None, QtGui.QApplication.UnicodeUTF8))
-        self.showAllBtn.setText(QtGui.QApplication.translate("Form", "显示全部", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionDump.setText(QtGui.QApplication.translate("Form", "导出本页", None, QtGui.QApplication.UnicodeUTF8))
+        Form.setWindowTitle(_translate("Form", "Form", None))
+        self.showMoreBtn.setText(_translate("Form", "显示更多", None))
+        self.curPageLabel.setText(_translate("Form", "0/0", None))
+        self.showAllBtn.setText(_translate("Form", "显示全部", None))
+        self.actionDump.setText(_translate("Form", "导出本页", None))
+        self.actionDumpSelected.setText(_translate("Form", "导出选中内容", None))
 
 from freezetablewidget import FreezeTableWidget
 

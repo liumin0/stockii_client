@@ -74,6 +74,11 @@
     <string>导出本页</string>
    </property>
   </action>
+  <action name="actionDumpSelected">
+   <property name="text">
+    <string>导出选中内容</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
