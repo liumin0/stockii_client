@@ -2,7 +2,7 @@
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtGui import QDialog, QTableView
 from PyQt4.QtCore import pyqtSignature,  QVariant,  QAbstractTableModel,  QModelIndex
-from tableModel import MyModel
+#from tableModel import MyModel
 from log import log
 class FreezeTableWidget(QTableView):
     def __init__(self, parent=None):

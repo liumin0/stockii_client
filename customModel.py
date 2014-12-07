@@ -12,7 +12,7 @@ import sys
 import datetime
 import json
 from http import callRestAsync,  callRestSync
-from log import log
+from log import log, DEBUG
 from translate import translate
 import myGlobal
 
@@ -77,6 +77,8 @@ class CustomModel(QAbstractTableModel):
             self.columnNames = ["stockid", "growthcount",  "ampcount",  "g0","g1","g2","g3","g4","g5","g6","g7","g8","g9","g10","g11","g12","g13","g14","g15","g16","g17","g18","g19","a0","a1","a2","a3","a4","a5","a6","a7","a8","a9","a10","a11","a12","a13","a14","a15","a16","a17","a18","a19"]
         elif self.restApi == 'listndayssum':
             self.columnNames = ["stockid"]
+        elif self.restApi == 'listcrossinfo':
+            self.columnNames = ["stockid", "startdate", "startvalue", "enddate", "endvalue", "avg", "difference", "crosstype"]
             
     def setRestApi(self,  api):
         self.restApi = api
@@ -221,7 +223,10 @@ class CustomModel(QAbstractTableModel):
             return curDate
         
         if type == 'day':
-            startDate = myGlobal.dealDays[myGlobal.dealDays.index(curDate)-delta+1]#  curDate - datetime.timedelta(days = delta - 1)
+            index = myGlobal.dealDays.index(curDate)-delta+1
+            if index < 0 :
+                index = 0
+            startDate = myGlobal.dealDays[index]#  curDate - datetime.timedelta(days = delta - 1)
         elif type == 'week':
             startDate = self.findNearDate(curDate - datetime.timedelta(days = 7 * (delta - 1) + curDate.weekday()))
         else:
@@ -264,6 +269,10 @@ class CustomModel(QAbstractTableModel):
                 response = decodedJson['listndayssumresponse']
                 self.totalCount  = response['count']
                 valuelist = response['stockndayssum']
+            elif self.restApi == 'listcrossinfo':
+                response = decodedJson['listcrossinforesponse']
+                self.totalCount  = response['count']
+                valuelist = response['crossinfo']
             else:
                 QMessageBox.warning(self.parent,'warning', u'查询异常')
                 return
@@ -475,8 +484,9 @@ class CustomModel(QAbstractTableModel):
             self.datas = []
             self.emit(QtCore.SIGNAL("layoutChanged()"))
             log('Something is wrong')
-#            import traceback
-#            traceback.print_exc()
+            if DEBUG:
+                import traceback
+                traceback.print_exc()
             return
         self.rCount = len(self.datas)
         self.lastRowCount = self.rCount
@@ -509,7 +519,7 @@ class CustomModel(QAbstractTableModel):
     def sort(self, col, order = QtCore.Qt.AscendingOrder):
         log(self.restApi, 'sort',  col)
         
-        if self.restApi == 'liststockdaysdiff' or self.restApi == 'listgrowthampdis' or self.restApi == 'listndayssum':
+        if self.restApi == 'liststockdaysdiff' or self.restApi == 'listgrowthampdis' or self.restApi == 'listndayssum' or self.restApi == 'listcrossinfo':
             self.emit(QtCore.SIGNAL("layoutAboutToBeChanged()"))
             if self.rCount > 0:
                 if col > 1:
@@ -561,6 +571,18 @@ class CustomModel(QAbstractTableModel):
         return QAbstractTableModel.headerData(self, col,orientation,role)
         #,Qt.Orientation
     def data(self,  index,  role = QtCore.Qt.DisplayRole):
+        if role == QtCore.Qt.BackgroundColorRole and self.restApi == 'listcrossinfo' and index.row() <= self.rCount:
+            if index.row() <= self.rCount:
+                line = self.datas[index.row()]
+                if len(line) > 8:
+                    crossType = str(line[8])
+                    if crossType == 'positive':
+                        return QVariant(QtGui.QColor(255,0,0));
+                    elif crossType == 'negative':
+                        return QVariant(QtGui.QColor(0,255,0));
+                    else:
+                        return QVariant(QtGui.QColor(255,255,0)); 
+                        
         if role == QtCore.Qt.TextAlignmentRole:
             return QVariant(QtCore.Qt.AlignRight|QtCore.Qt.AlignVCenter)
         if not index.isValid():

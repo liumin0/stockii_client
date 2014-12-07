@@ -159,6 +159,11 @@ translateTable = {
 'mindate':u"最小值日期", 
 'maxvalue':u"最大值", 
 'minvalue':u"最小值", 
+'startdate':u"开始日期", 
+'enddate':u"结束日期", 
+'avg':u"均值", 
+'difference':u"差异", 
+'crosstype':u"跨区类型", 
 }
 def translate(s):
     if s in translateTable:

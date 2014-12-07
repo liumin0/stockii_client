@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project Stock -->
-<!-- Saved: 2014-11-23, 10:31:56 -->
+<!-- Saved: 2014-12-07, 17:53:14 -->
 <!-- Copyright (C) 2014 ,  -->
 <Project version="4.6">
   <Language>en</Language>
@@ -48,6 +48,7 @@
     <Source>customRest.py</Source>
     <Source>crypt.py</Source>
     <Source>myMenu.py</Source>
+    <Source>combineModel.py</Source>
   </Sources>
   <Forms>
     <Form>UI/chooseid.ui</Form>

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\WorkSpace\eric4\stockii\stockii_client\UI\MyTable.ui'
 #
-# Created: Sat Nov 29 15:06:11 2014
+# Created: Sun Dec 07 17:51:03 2014
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -36,6 +36,9 @@ class Ui_Form(object):
         self.horizontalLayout_16.setObjectName(_fromUtf8("horizontalLayout_16"))
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_16.addItem(spacerItem)
+        self.clearBtn = QtGui.QPushButton(Form)
+        self.clearBtn.setObjectName(_fromUtf8("clearBtn"))
+        self.horizontalLayout_16.addWidget(self.clearBtn)
         self.showMoreBtn = QtGui.QPushButton(Form)
         self.showMoreBtn.setObjectName(_fromUtf8("showMoreBtn"))
         self.horizontalLayout_16.addWidget(self.showMoreBtn)
@@ -52,17 +55,24 @@ class Ui_Form(object):
         self.actionDump.setObjectName(_fromUtf8("actionDump"))
         self.actionDumpSelected = QtGui.QAction(Form)
         self.actionDumpSelected.setObjectName(_fromUtf8("actionDumpSelected"))
+        self.actionCombineSelected = QtGui.QAction(Form)
+        self.actionCombineSelected.setObjectName(_fromUtf8("actionCombineSelected"))
+        self.actionCombine = QtGui.QAction(Form)
+        self.actionCombine.setObjectName(_fromUtf8("actionCombine"))
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
+        self.clearBtn.setText(_translate("Form", "清除", None))
         self.showMoreBtn.setText(_translate("Form", "显示更多", None))
         self.curPageLabel.setText(_translate("Form", "0/0", None))
         self.showAllBtn.setText(_translate("Form", "显示全部", None))
         self.actionDump.setText(_translate("Form", "导出本页", None))
         self.actionDumpSelected.setText(_translate("Form", "导出选中内容", None))
+        self.actionCombineSelected.setText(_translate("Form", "拼接所选", None))
+        self.actionCombine.setText(_translate("Form", "拼接本页", None))
 
 from freezetablewidget import FreezeTableWidget
 

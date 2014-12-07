@@ -33,6 +33,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="clearBtn">
+       <property name="text">
+        <string>清除</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="showMoreBtn">
        <property name="text">
         <string>显示更多</string>
@@ -77,6 +84,16 @@
   <action name="actionDumpSelected">
    <property name="text">
     <string>导出选中内容</string>
+   </property>
+  </action>
+  <action name="actionCombineSelected">
+   <property name="text">
+    <string>拼接所选</string>
+   </property>
+  </action>
+  <action name="actionCombine">
+   <property name="text">
+    <string>拼接本页</string>
    </property>
   </action>
  </widget>

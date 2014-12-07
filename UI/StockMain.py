@@ -17,7 +17,7 @@ import myGlobal
 import config
 import log
 import datetime
-
+from combineModel import CombineModel
 
 class StockMain(QMainWindow, Ui_MainWindow):
     """
@@ -38,9 +38,11 @@ class StockMain(QMainWindow, Ui_MainWindow):
         validator = QRegExpValidator(regx, self)
         self.smallValueEdit.setValidator( validator )
         self.bigValueEdit.setValidator( validator )
+        self.weightEdit.setValidator( validator )
         self.on_daySumRadio_clicked()
         self.initCmpMethCombo()
         self.initCmpTypeCombo()
+        self.initCrossTypeCombo()
         self.filter = ''
 #        myGlobal.init()
 #        myGlobal.initDealDays()
@@ -53,10 +55,17 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.calcModel2 = CustomModel(self)
         self.calcModel2.setRestApi('liststockdaysdiff')
         self.calcModel2.setPageSize(10000)
+        self.crossModel = CustomModel(self)
+        self.crossModel.setRestApi('listcrossinfo')
+        self.crossModel.setPageSize(10000)
+        self.combineModel = CombineModel(self)
+        self.combineModel.setPageSize(10000)
         self.classifyMenu = None
         self.startDate = QDate.currentDate()
         self.endDate = self.startDate.addDays(-1)
         self.calcTableWidget.setButtonsVisible(False)
+        self.combineWidget.setButtonsVisible(False)
+        self.combineWidget.clearBtn.setVisible(True)
         #self.treeWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu);
         savedSetting = config.readSetting()
         if 'groups' in savedSetting:
@@ -82,6 +91,9 @@ class StockMain(QMainWindow, Ui_MainWindow):
         elif curIndex == 2:
             self.startDateEdit = self.startDateEdit_3
             self.endDateEdit = self.endDateEdit_3
+        elif curIndex == 3:
+            self.startDateEdit = self.startDateEdit_4
+            self.endDateEdit = self.endDateEdit_4
         
         self.startDateEdit.setDate(self.startDate)
         self.endDateEdit.setDate(self.endDate)
@@ -144,6 +156,14 @@ class StockMain(QMainWindow, Ui_MainWindow):
         u'量比':'volume_ratio'}
         for key in self.cmpTypeNames:
             self.cmpTypeCombo.addItem(key)
+            
+    def initCrossTypeCombo(self):
+        #avg_price,growth_ratio,current_price,total_stock,total_value,avg_circulation_value,cir_of_cap_stock
+        self.crossTypeCombo.clear()
+        self.crossTypeNames = {
+        u'昨收':'ytd_end_price',}
+        for key in self.crossTypeNames:
+            self.crossTypeCombo.addItem(key)
     
     @pyqtSignature("")
     def on_daySumRadio_clicked(self):
@@ -239,7 +259,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
             args = {'stockid':','.join(self.ids),  'starttime':startD,  'endtime':endD}
         self.dayInfoModel.setRestArgs(args)
         
-        self.srcTableWidget.init(self.dayInfoModel, 2,  self.tableSetting)
+        self.srcTableWidget.init(self.dayInfoModel, 2,  self.tableSetting,  self)
     
     @pyqtSignature("")
     def on_queryBtn_2_clicked(self):
@@ -269,7 +289,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
             args = {'starttime':startD,  'endtime':endD,  'sumType':sumType,  'sumname': calcName}
         else:
             args = {'stockid':','.join(self.ids),  'starttime':startD,  'endtime':endD,  'sumType':sumType,  'sumname': calcName}
-        if self.customType == 'D':
+        if self.customType == 'D':  
             self.calcModel.setRestApi('listdaysum')
             args['days'] = customNum
         elif self.customType == 'W':
@@ -279,7 +299,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
             self.calcModel.setRestApi('listmonthsum')
             args['months'] = customNum
         self.calcModel.setRestArgs(args)
-        self.sumTableWidget.init(self.calcModel)
+        self.sumTableWidget.init(self.calcModel, parent = self)
 
         #raise NotImplementedError
     @pyqtSignature("")
@@ -478,9 +498,9 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.calcModel2.setRestArgs(args)
         
         if self.calcModel2.restApi == 'listgrowthampdis':
-            self.calcTableWidget.init(self.calcModel2, 6)
+            self.calcTableWidget.init(self.calcModel2, 6, parent = self)
         else:
-            self.calcTableWidget.init(self.calcModel2, 2)
+            self.calcTableWidget.init(self.calcModel2, 2, parent = self)
             
 #        smallLimit = self.smallValueEdit.text().toFloat()
 #        bigLimit = self.bigValueEdit.text().toFloat()
@@ -655,3 +675,30 @@ class StockMain(QMainWindow, Ui_MainWindow):
             self.calcModel2.setFilter(type + '#' + arg)
             self.on_calculateBtn_clicked()
     
+    @pyqtSignature("")
+    def on_crossBtn_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+#        raise NotImplementedError
+        
+        startD = self.startDateEdit.date().toPyDate()
+        endD = self.endDateEdit.date().toPyDate()
+        self.startDate = self.startDateEdit.date()
+        self.endDate = self.endDateEdit.date()
+        if not self.testDate(startD, endD):
+            return
+        #response=json&page=2&pagesize=20&stockid=000001,000002,000003,000004,000005&starttime=2008-09-24&sortname=turnover_ratio
+        #optname=avg_price,growth_ratio,current_price&opt=-&starttime=2008-03-25&endtime=2008-03-28&page=4&pagesize=20
+        optname = self.crossTypeNames[str(self.crossTypeCombo.currentText().toUtf8()).decode('utf-8')] #self.cmpTypeCombo.currentText().toInt()[0]
+        weight = str(self.weightEdit.text().toUtf8())
+        try:
+            weight = float(weight)
+        except:
+            QMessageBox.warning(self, 'warning', u'权重输入有误')
+            return
+        args = {'starttime':startD,  'endtime':endD,  'optname':optname, 'weight':weight}
+        log.log(args)
+        self.crossModel.setRestArgs(args)
+        self.crossTableWidget.init(self.crossModel, parent = self)

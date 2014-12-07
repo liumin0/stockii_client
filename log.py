@@ -2,10 +2,10 @@
 
 import os
 
-printLog = False
+DEBUG = True
 
 def log(*s):
-    if printLog:
+    if DEBUG:
         print s
     
              

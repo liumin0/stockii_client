@@ -65,7 +65,7 @@ reCalcTable = {
 }
 
 def initDealDays():
-    ret = callRestSync('listDealDays',  {'response': 'json'})
+    ret = callRestSync('listdealdays',  {'response': 'json'})
     if ret[0] == False:
         QMessageBox.warning(None,'warning', ret[1])
         sys.exit(1)
@@ -84,8 +84,8 @@ def initDealDays():
         
         dealDays.sort()
     except:
-        import traceback 
-        traceback.print_exc()
+#        import traceback 
+#        traceback.print_exc()
         QMessageBox.warning(None,'warning', u"通信错误")
         sys.exit(1)
         

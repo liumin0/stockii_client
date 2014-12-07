@@ -28,9 +28,13 @@ class MyTable(QWidget, Ui_Form):
         self.limit = (None,  None) #保存限制条件
         self.freezeNum = 0
         self.inited = False
+        self.parent = None
         self.modelSet = False
         self.tableView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu);
-    
+        self.clearBtn.setVisible(False)
+        
+        self.connect(self.clearBtn,  SIGNAL("clicked()"),  self.clearCombine)
+        
     def setButtonsVisible(self,  visible):
 #        self.headBtn.setVisible(visible)
 #        self.preBtn.setVisible(visible)
@@ -39,6 +43,7 @@ class MyTable(QWidget, Ui_Form):
         self.curPageLabel.setVisible(visible)
         self.showAllBtn.setVisible(visible)
         self.showMoreBtn.setVisible(visible)
+        
     
     def __init(self):
 #        log.log('[*] __init',  self.tableView.inited)
@@ -51,8 +56,10 @@ class MyTable(QWidget, Ui_Form):
 #        self.tableView.refreshHidden()
         self.refreshIndex()
     
-    def init(self, model,  freezeNum = 0,  setting = None):
+    def init(self, model,  freezeNum = 0,  setting = None, parent = None):
         self.setModel(model)
+        
+        self.parent = parent
         bakFreezeNum = self.freezeNum
         self.freezeNum = freezeNum
         if setting is not None:
@@ -84,6 +91,7 @@ class MyTable(QWidget, Ui_Form):
         if self.modelSet == False:
             self.connect(self.showMoreBtn,  SIGNAL("clicked()"),  self.model.down)
             self.connect(self.showAllBtn,  SIGNAL("clicked()"),  self.model.showAll)
+            
             self.modelSet = True
     
     def refreshIndex(self):
@@ -111,6 +119,9 @@ class MyTable(QWidget, Ui_Form):
             menu = QMenu(self);
             menu.addAction(self.actionDump);
             menu.addAction(self.actionDumpSelected);
+            if self.model == self.parent.calcModel2:
+                menu.addAction(self.actionCombine);
+                menu.addAction(self.actionCombineSelected);
             menu.exec_(curPos);
     
     @pyqtSignature("")
@@ -235,4 +246,32 @@ class MyTable(QWidget, Ui_Form):
         
 #        self.progressDialog.exec_()
     
-
+    @pyqtSignature("")
+    def on_actionCombine_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        self.parent.combineWidget.init(self.parent.combineModel, parent = self.parent)
+        self.parent.combineModel.appendModel(self.model, None)
+        
+    def clearCombine(self):
+        self.parent.combineModel.clear()
+    
+    @pyqtSignature("")
+    def on_actionCombineSelected_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        filter = []
+        for selected in self.tableView.selectedIndexes():
+            
+            if selected.row() not in filter:
+                filter.append(selected.row())
+            else:
+                break
+        self.parent.combineWidget.init(self.parent.combineModel, parent = self.parent)
+        if len(filter) == 0:
+            filter = None
+        self.parent.combineModel.appendModel(self.model, filter)
