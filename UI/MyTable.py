@@ -120,7 +120,7 @@ class MyTable(QWidget, Ui_Form):
             menu = QMenu(self);
             menu.addAction(self.actionDump);
             menu.addAction(self.actionDumpSelected);
-            if self.model == self.parent.calcModel2:
+            if self.model == self.parent.calcModel2 or self.model == self.parent.crossModel:
                 menu.addAction(self.actionCombine);
                 menu.addAction(self.actionCombineSelected);
             menu.exec_(curPos);

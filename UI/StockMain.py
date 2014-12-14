@@ -61,8 +61,8 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.combineModel = CombineModel(self)
         self.combineModel.setPageSize(10000)
         self.classifyMenu = None
-        self.startDate = QDate.currentDate()
-        self.endDate = self.startDate.addDays(-1)
+        self.endDate = QDate.currentDate()
+        self.startDate = self.endDate.addDays(-1)
         self.calcTableWidget.setButtonsVisible(False)
         self.combineWidget.setButtonsVisible(False)
         self.combineWidget.clearBtn.setVisible(True)
@@ -162,7 +162,14 @@ class StockMain(QMainWindow, Ui_MainWindow):
         #avg_price,growth_ratio,current_price,total_stock,total_value,avg_circulation_value,cir_of_cap_stock
         self.crossTypeCombo.clear()
         self.crossTypeNames = {
-        u'昨收':'ytd_end_price',}
+        u'昨收':'ytd_end_price',
+        u'均价':'avg_price', 
+        u'均价流通市值':'avg_circulation_value',
+        u'总市值':'total_value',
+        u'总股本':'total_stock',
+        u'流通股本':'cir_of_cap_stock',
+        
+        }
         for key in self.crossTypeNames:
             self.crossTypeCombo.addItem(key)
     

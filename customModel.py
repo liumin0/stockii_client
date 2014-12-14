@@ -78,7 +78,7 @@ class CustomModel(QAbstractTableModel):
         elif self.restApi == 'listndayssum':
             self.columnNames = ["stockid"]
         elif self.restApi == 'listcrossinfo':
-            self.columnNames = ["stockid", "startdate", "startvalue", "enddate", "endvalue", "avg", "difference", "crosstype"]
+            self.columnNames = ["stockid", "startdate", "startvalue", "enddate", "endvalue", "startlistdate", "endlistdate", "crosstype"]
             
     def setRestApi(self,  api):
         self.restApi = api
@@ -234,6 +234,9 @@ class CustomModel(QAbstractTableModel):
         
         return startDate
     
+    def isCalcKey(self, key):
+        return key == 'startvalue' or key == 'endvalue' or key == 'maxvalue' or key == 'minvalue' or key == 'avg'
+    
     def updateData(self,  rJson):
         """
         更新数据的函数，会根据API的不同，采用不同的解析方式。而且自定义列名，自定义数据显示的格式也都是在这个函数中
@@ -348,16 +351,16 @@ class CustomModel(QAbstractTableModel):
                     else:
                         tmpKey = key
                         if (self.restApi == 'liststockdaysdiff' and 'divide' in self.args['opt'] and key in myGlobal.reCalcTable) or (key not in myGlobal.reCalcTable and 'sum' not in key and \
-                            key != 'startvalue' and key != 'endvalue' and key != 'maxvalue' and key != 'minvalue'):
+                            not self.isCalcKey(key)):
                             row.append(value[key])
                         else:
-                            if ('sum' in key and self.args['sumname'] not in myGlobal.reCalcTable) or ((key == 'startvalue' or key == 'endvalue' or key == 'maxvalue' or key == 'minvalue')\
+                            if ('sum' in key and self.args['sumname'] not in myGlobal.reCalcTable) or (self.isCalcKey(key)\
                                 and self.args['optname'] not in myGlobal.reCalcTable):
                                 row.append(value[key])
                             else:
                                 if 'sum' in key:
                                     tmpKey = self.args['sumname']
-                                elif key == 'startvalue' or key == 'endvalue' or key == 'maxvalue' or key == 'minvalue':
+                                elif self.isCalcKey(key):
                                     tmpKey = self.args['optname']
                                 val = float(value[key])
                                 val /= myGlobal.reCalcTable[tmpKey]
@@ -378,16 +381,16 @@ class CustomModel(QAbstractTableModel):
                     if key not in self.columnNames[:]:
                         tmpKey = key
                         if (self.restApi == 'liststockdaysdiff' and 'divide' in self.args['opt'] and key in myGlobal.reCalcTable) or (key not in myGlobal.reCalcTable and 'sum' not in key and \
-                            key != 'startvalue' and key != 'endvalue' and key != 'maxvalue' and key != 'minvalue'):
+                            not self.isCalcKey(key)):
                             row.append(value[key])
                         else:
-                            if ('sum' in key and self.args['sumname'] not in myGlobal.reCalcTable) or ((key == 'startvalue' or key == 'endvalue' or key == 'maxvalue' or key == 'minvalue')\
+                            if ('sum' in key and self.args['sumname'] not in myGlobal.reCalcTable) or (self.isCalcKey(key)\
                                 and self.args['optname'] not in myGlobal.reCalcTable):
                                 row.append(value[key])
                             else:
                                 if 'sum' in key:
                                     tmpKey = self.args['sumname']
-                                elif key == 'startvalue' or key == 'endvalue' or key == 'maxvalue' or key == 'minvalue':
+                                elif self.isCalcKey(key):
                                     tmpKey = self.args['optname']
                                 val = float(value[key])
                                 val /= myGlobal.reCalcTable[tmpKey]
@@ -418,6 +421,11 @@ class CustomModel(QAbstractTableModel):
                                     self.headers.append(translate(key)+'('+unit+')'+u'(一段时间内的和)')
                                 else:
                                     self.headers.append(translate(key)+u'(一段时间内的和)')
+                            elif self.restApi == 'listcrossinfo':
+                                if unit != '':
+                                    self.headers.append(translate(key)+'('+unit+')'+u'(%s)'%translate(self.args['optname']))
+                                else:
+                                    self.headers.append(translate(key)+u'(%s)'%translate(self.args['optname']))
                             else:
                                 if unit != '':
                                     self.headers.append(translate(key)+'('+unit+')')
@@ -429,7 +437,7 @@ class CustomModel(QAbstractTableModel):
                             self.columnNames.append(key)
                 
                 
-                if self.restApi != 'liststockdayinfo' and self.restApi != 'listgrowthampdis':
+                if self.restApi != 'liststockdayinfo' and self.restApi != 'listgrowthampdis' and self.restApi != 'listcrossinfo':
                     for k in range(1, len(row)):
                         try:
                             val = float(row[k])
@@ -574,14 +582,15 @@ class CustomModel(QAbstractTableModel):
         if role == QtCore.Qt.BackgroundColorRole and self.restApi == 'listcrossinfo' and index.row() <= self.rCount:
             if index.row() <= self.rCount:
                 line = self.datas[index.row()]
-                if len(line) > 8:
-                    crossType = str(line[8])
-                    if crossType == 'positive':
-                        return QVariant(QtGui.QColor(255,0,0));
-                    elif crossType == 'negative':
-                        return QVariant(QtGui.QColor(0,255,0));
-                    else:
-                        return QVariant(QtGui.QColor(255,255,0)); 
+                
+                pos = self.columnNames.index('crosstype')
+                crossType = str(line[pos])
+                if crossType == 'positive':
+                    return QVariant(QtGui.QColor(255,0,0,175));
+                elif crossType == 'negative':
+                    return QVariant(QtGui.QColor(0,255,0, 175));
+                else:
+                    return QVariant(QtGui.QColor(255,255,0, 175)); 
                         
         if role == QtCore.Qt.TextAlignmentRole:
             return QVariant(QtCore.Qt.AlignRight|QtCore.Qt.AlignVCenter)

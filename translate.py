@@ -164,6 +164,8 @@ translateTable = {
 'avg':u"均值", 
 'difference':u"差异", 
 'crosstype':u"跨区类型", 
+'endlistdate':u"结束-上市(天)", 
+'startlistdate':u"开始-上市(天)", 
 }
 def translate(s):
     if s in translateTable:

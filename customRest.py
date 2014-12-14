@@ -9,6 +9,7 @@ from PyQt4.QtSql import QSqlQuery
 from log import log
 import json
 import math
+import datetime
 from log import DEBUG
 
 class myurllib():
@@ -770,6 +771,14 @@ class myurllib():
                 weight = args['weight']
                 optname = args['optname']
                 
+                sql = 'SELECT stock_id, list_date FROM stock_basic_info'
+                self.query.exec_(sql)
+                listDate = {}
+                while self.query.next():
+                    dTime = datetime.datetime.strptime(str(self.query.value(1).toString().toUtf8()),"%Y-%m-%dT%H:%M:%S")
+                    listDate[str(self.query.value(0).toString().toUtf8())] = dTime.date()
+                self.query.clear()
+                
                 sql = 'SELECT stock_id, created , %s \
                                         FROM stock_day_info \
                                         WHERE created = "%s" OR created = "%s" \
@@ -830,6 +839,10 @@ class myurllib():
                     row['avg'] = positiveList[i].avg
                     row['difference'] = positiveList[i].difference
                     row['crosstype'] = 'positive'
+#                    print type(endD), type(listDate[positiveList[i].stockId])
+#                    print type(endD-listDate[positiveList[i].stockId])
+                    row['endlistdate'] = (endD-listDate[positiveList[i].stockId]).days
+                    row['startlistdate'] = (startD-listDate[positiveList[i].stockId]).days
                     ret['listcrossinforesponse']['crossinfo'].append(row)
                     count += 1
                 border = max( 0 , len( defaultList ) - 100 )
@@ -843,6 +856,8 @@ class myurllib():
                     row['avg'] = defaultList[i].avg
                     row['difference'] = defaultList[i].difference
                     row['crosstype'] = 'default'
+                    row['endlistdate'] = (endD-listDate[positiveList[i].stockId]).days
+                    row['startlistdate'] = (startD-listDate[positiveList[i].stockId]).days
                     ret['listcrossinforesponse']['crossinfo'].append(row)
                     count += 1
                 border = max( 0 , len( negativeList ) - 100 )
@@ -856,9 +871,13 @@ class myurllib():
                     row['avg'] = negativeList[i].avg
                     row['difference'] = negativeList[i].difference
                     row['crosstype'] = 'negative'
+                    row['endlistdate'] = (endD-listDate[positiveList[i].stockId]).days
+                    row['startlistdate'] = (startD-listDate[positiveList[i].stockId]).days
                     ret['listcrossinforesponse']['crossinfo'].append(row)
                     count += 1
                 ret['listcrossinforesponse']['count'] = count
+            
+                #print json.loads(r)
 #                log('ret',  ret)
                 return json.dumps(ret)
             else:
@@ -914,7 +933,7 @@ class DataItem :
         self.endPrice = float(end_price)
         self.stockId = stock_id
         self.avg = round( avg , 2 )
-        log(self.startPrice / avg , 1 + weight)
+        
         value1 = math.log( self.startPrice / avg , 1 + weight )
         value2 = math.log( self.endPrice / avg , 1 + weight )
         if value1 > 0 :
@@ -939,5 +958,5 @@ if __name__ == '__main__':
 #    urllib.request('liststockdaysdiff', {'starttime':'2000-01-01',  'stockid':'000001, 000002, 000006', 'endtime':'2014-01-01',  'optname':'growth_ratio',  'opt':'maxmin','page':'1',  'pagesize':1000,  'sortname':'growth_ratio'})
 #    urllib.request('listgrowthampdis', {'starttime':'2012-10-01',  'endtime':'2012-11-01',  'stockid':'000001'})
 #    urllib.request('listDealDays', '')
-    urllib.request('listcrossinfo', {'starttime':'2012-12-10',  'endtime':'2013-12-10', 'weight':'2', 'crossType':'ytd_end_price'})
+    urllib.request('listcrossinfo', {'starttime':datetime.date(2012, 12, 10),  'endtime':datetime.date(2013, 12, 10), 'weight':'2', 'optname':'ytd_end_price'})
     sys.exit(app.exec_())
