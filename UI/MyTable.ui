@@ -33,6 +33,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="undoBtn">
+       <property name="text">
+        <string>撤销</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="clearBtn">
        <property name="text">
         <string>清除</string>

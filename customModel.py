@@ -26,7 +26,7 @@ class CustomModel(QAbstractTableModel):
         """
         QAbstractTableModel.__init__(self, parent)
         self.parent = parent;           #保存父类
-        
+        self.headers = []
         self.datas=[]                   #保存需要显示的数据
         self.rCount = 0                 #数据的行数
         self.cCount = 0                 #数据的列数

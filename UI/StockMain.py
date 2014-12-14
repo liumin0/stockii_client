@@ -66,6 +66,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.calcTableWidget.setButtonsVisible(False)
         self.combineWidget.setButtonsVisible(False)
         self.combineWidget.clearBtn.setVisible(True)
+        self.combineWidget.undoBtn.setVisible(True)
         #self.treeWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu);
         savedSetting = config.readSetting()
         if 'groups' in savedSetting:

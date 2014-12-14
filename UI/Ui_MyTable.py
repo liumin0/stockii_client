@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\WorkSpace\eric4\stockii\stockii_client\UI\MyTable.ui'
 #
-# Created: Sun Dec 07 17:51:03 2014
+# Created: Sat Dec 13 18:44:28 2014
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -36,6 +36,9 @@ class Ui_Form(object):
         self.horizontalLayout_16.setObjectName(_fromUtf8("horizontalLayout_16"))
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_16.addItem(spacerItem)
+        self.undoBtn = QtGui.QPushButton(Form)
+        self.undoBtn.setObjectName(_fromUtf8("undoBtn"))
+        self.horizontalLayout_16.addWidget(self.undoBtn)
         self.clearBtn = QtGui.QPushButton(Form)
         self.clearBtn.setObjectName(_fromUtf8("clearBtn"))
         self.horizontalLayout_16.addWidget(self.clearBtn)
@@ -65,6 +68,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
+        self.undoBtn.setText(_translate("Form", "撤销", None))
         self.clearBtn.setText(_translate("Form", "清除", None))
         self.showMoreBtn.setText(_translate("Form", "显示更多", None))
         self.curPageLabel.setText(_translate("Form", "0/0", None))

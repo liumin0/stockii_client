@@ -784,12 +784,13 @@ class myurllib():
                         startEndDict[stockId] += [str(self.query.value(2).toString().toUtf8())]
                 
                 self.query.clear()
-                log(startEndDict)
+#                log(startEndDict)
                 sql = 'SELECT stock_id,avg(%s) FROM stock_day_info WHERE created BETWEEN "%s" AND "%s" GROUP BY stock_id HAVING COUNT(created) >= 30' %(optname, startD, endD)
                 self.query.exec_(sql)
                 positiveList = []
                 negativeList = []
                 defaultList = []
+                log('weight', weight)
                 while self.query.next():
                     stockId = str(self.query.value(0).toString().toUtf8())
                     avg = str(self.query.value(1).toString().toUtf8())
@@ -800,7 +801,7 @@ class myurllib():
                         else :
                             negativeList.append( tempItem )
                 self.query.clear()
-                log(positiveList)
+#                log(positiveList)
                 positiveList.sort( key = sortKey )
                 negativeList.sort( key = sortKey )
                 if len( positiveList ) > 100 :
@@ -908,11 +909,12 @@ class myurllib():
 class DataItem :
     def __init__( self, start_price, end_price, stock_id, avg ,weight):
         avg = float(avg)
-        weight = float(weight)
+        weight = float(weight) / 100
         self.startPrice = float(start_price)
         self.endPrice = float(end_price)
         self.stockId = stock_id
         self.avg = round( avg , 2 )
+        log(self.startPrice / avg , 1 + weight)
         value1 = math.log( self.startPrice / avg , 1 + weight )
         value2 = math.log( self.endPrice / avg , 1 + weight )
         if value1 > 0 :

@@ -2,11 +2,12 @@
 
 import os
 
-DEBUG = True
+DEBUG = False
 
 def log(*s):
     if DEBUG:
-        print s
-    
+        for i in s:
+            print i, 
+        print ''    
              
             

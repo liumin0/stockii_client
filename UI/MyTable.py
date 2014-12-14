@@ -32,8 +32,9 @@ class MyTable(QWidget, Ui_Form):
         self.modelSet = False
         self.tableView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu);
         self.clearBtn.setVisible(False)
-        
+        self.undoBtn.setVisible(False)
         self.connect(self.clearBtn,  SIGNAL("clicked()"),  self.clearCombine)
+        self.connect(self.undoBtn,  SIGNAL("clicked()"),  self.undo)
         
     def setButtonsVisible(self,  visible):
 #        self.headBtn.setVisible(visible)
@@ -256,7 +257,16 @@ class MyTable(QWidget, Ui_Form):
         self.parent.combineModel.appendModel(self.model, None)
         
     def clearCombine(self):
-        self.parent.combineModel.clear()
+        try:
+            self.parent.combineModel.clear()
+        except:
+            pass
+    
+    def undo(self):
+        try:
+            self.parent.combineModel.undo()
+        except:
+            pass
     
     @pyqtSignature("")
     def on_actionCombineSelected_triggered(self):

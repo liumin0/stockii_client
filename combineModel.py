@@ -17,7 +17,14 @@ class CombineModel(CustomModel):
     """
     Class documentation goes here.
     """
-
+    def __init__(self, parent = None):
+        """
+        Constructor
+        """
+        CustomModel.__init__(self, parent)
+        self.backupDatas = []
+        self.backupHeaders = []
+        
     def appendModel(self, model, filter = None):
         if filter is not None and len(filter) == 0:
             return
@@ -28,7 +35,13 @@ class CombineModel(CustomModel):
         for i in range(len(appendDatas)):
             mapList[appendDatas[i][0]] = i
         self.emit(QtCore.SIGNAL("layoutAboutToBeChanged()"))
-        
+        del self.backupDatas
+        self.backupDatas = []
+        for line in self.datas:
+            self.backupDatas.append(line[:])
+        del self.backupHeaders
+        self.backupHeaders = []
+        self.backupHeaders = self.headers[:]
         if self.rCount == 0:
             self.headers = appendHeaders[:]
             if filter is not None:
@@ -45,6 +58,21 @@ class CombineModel(CustomModel):
                 else:
                     self.datas.pop(self.datas.index(line))
         
+        self.rCount = len(self.datas)
+        if self.rCount > 0:
+            self.cCount = len(self.datas[0])
+        self.emit(QtCore.SIGNAL("layoutChanged()"))
+        
+        
+    def undo(self):
+        log("undo")
+        tmpData = self.datas
+        tmpHeader = self.headers
+        self.emit(QtCore.SIGNAL("layoutAboutToBeChanged()"))
+        self.datas = self.backupDatas
+        self.headers = self.backupHeaders
+        self.backupDatas = tmpData
+        self.backupHeaders = tmpHeader
         self.rCount = len(self.datas)
         if self.rCount > 0:
             self.cCount = len(self.datas[0])
