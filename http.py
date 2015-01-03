@@ -15,7 +15,7 @@ from PyQt4.QtCore import SIGNAL
 import customRest
 import myGlobal
 import traceback
-baseUrl = 'http://192.168.1.220:8080/client/api?command=%s'
+baseUrl = 'http://192.168.1.111:8080/client/api?command=%s'
 #baseUrl = 'http://localhost:8080/client/api?command=%s'
 #baseUrl = 'http://stockii-gf.oicp.net/client/api?command=%s'
 

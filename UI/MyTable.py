@@ -8,6 +8,7 @@ from PyQt4 import QtCore
 from PyQt4.QtGui import QWidget,  QMenu,  QFileDialog,  QProgressDialog
 from PyQt4.QtCore import pyqtSignature,  SIGNAL
 
+from NewGroup import NewGroup
 from Ui_MyTable import Ui_Form
 import platform
 from log import log
@@ -121,8 +122,9 @@ class MyTable(QWidget, Ui_Form):
             menu.addAction(self.actionDump);
             menu.addAction(self.actionDumpSelected);
             if self.model == self.parent.calcModel2 or self.model == self.parent.crossModel:
-                menu.addAction(self.actionCombine);
-                menu.addAction(self.actionCombineSelected);
+                menu.addAction(self.actionCombine)
+                menu.addAction(self.actionCombineSelected)
+                menu.addAction(self.actionNewGroup)
             menu.exec_(curPos);
     
     @pyqtSignature("")
@@ -149,7 +151,26 @@ class MyTable(QWidget, Ui_Form):
                 break
         
         self.doExport(self.model,  filter)
-    
+    @pyqtSignature("")
+    def on_actionNewGroup_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        #raise NotImplementedError
+        #self.doExport(self.model,  None)
+        ids = []
+        rows = []
+        for selected in self.tableView.selectedIndexes():
+            print selected.row()
+            if selected.row() not in rows:
+                rows.append(selected.row())
+                ids.append(self.model.datas[selected.row()][0])
+            else:
+                break
+        newGroupDialog = NewGroup(ids, self.parent)
+        newGroupDialog.show()
+        
     def setProgress(self, value, totalCount):
         self.progressDialog.setLabelText (u"正在导出 (%d/%d)" %(value,  totalCount))
         self.progressDialog.setValue(value)
@@ -205,7 +226,9 @@ class MyTable(QWidget, Ui_Form):
             datas.append(row)
             if fileName.endswith('.xlsx') or fileName.endswith('.csv'):
                 row[0] = '="%s"'%row[0]
-            f.write(','.join(row)+'\r\n')
+            row = ','.join(row)+'\r\n'
+            row = row.replace('(', '').replace(')', '')
+            f.write(row)
             self.emit(SIGNAL("progressChanged(int,int)"), count, totalCount)
         
         f.close()

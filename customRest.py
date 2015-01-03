@@ -28,7 +28,7 @@ class myurllib():
 #            self.db.setDatabaseName('stock')          
 #            self.db.setUserName('user')             
 #            self.db.setPassword('123456')  
-            
+#            self.db.setHostName('192.168.1.114')    
             self.db.setHostName('localhost') 
             self.db.setDatabaseName('stock')          
             self.db.setUserName('root')             
@@ -54,7 +54,7 @@ class myurllib():
         condition = ''
         tableFilter = ''
         try:
-            flag, type = innerFilterType.split('#')
+            flag, type = innerFilterType.split('__')
             clz, switchType, subType = type.split('_')
             log('innerFilterType', switchType, subType)
             if switchType == '0':
@@ -121,11 +121,10 @@ class myurllib():
                  '12': u' and MONTH(z.created)=9',                                        #u'9 月'
                  '13': u' and MONTH(z.created)=10',                                       #u'10 月'
                  '14': u' and MONTH(z.created)=11',                                       #u'11 月'
-                 '14': u' and MONTH(z.created)=12',                                       #u'12 月'
+                 '15': u' and MONTH(z.created)=12',                                       #u'12 月'
                 }[subType]
-            elif switchType == '5':
-                condition = ''
             else:
+                condition = ''
                 log('Unkown filter')
                 
             if flag == 'FLAG_UP':
@@ -140,11 +139,11 @@ class myurllib():
     def request(self, api,  args):
         log('APINAME', api)
         try:
-            if api == 'liststockclassfication':
+            if api == 'liststockclassification':
                 sql = 'SELECT stock_basic_info.stock_id,stock_basic_info.stock_name,industry_info.industry_name,area_info.area_name FROM stock_basic_info, stock_classification LEFT JOIN industry_info ON stock_classification.industry_id=industry_info.industry_id LEFT JOIN area_info ON stock_classification.area_id = area_info.area_id where stock_basic_info.stock_id=stock_classification.stock_id'
                 self.query.exec_(sql)
-                ret = {'liststockclassficationresponse':{}}
-                ret['liststockclassficationresponse']['stockclassification'] = []
+                ret = {'liststockclassificationresponse':{}}
+                ret['liststockclassificationresponse']['stockclassification'] = []
                 count = 0
                 while self.query.next():
                     row = {}
@@ -152,9 +151,9 @@ class myurllib():
                     row['stockname'] = str(self.query.value(1).toString().toUtf8())
                     row['industryname'] = str(self.query.value(2).toString().toUtf8())
                     row['areaname'] = str(self.query.value(3).toString().toUtf8())
-                    ret['liststockclassficationresponse']['stockclassification'].append(row)
+                    ret['liststockclassificationresponse']['stockclassification'].append(row)
                     count += 1
-                ret['liststockclassficationresponse']['count'] = count
+                ret['liststockclassificationresponse']['count'] = count
                 self.query.clear()
     #            log('ret',  ret)
                 return json.dumps(ret)
@@ -288,7 +287,7 @@ class myurllib():
                 ids = None
                 if 'stockid' in args:
                     ids = args['stockid']
-                sumType = args['sumType']
+                sumType = args['sumtype']
                 sumName = args['sumname']
                 tableName = ''
                 num = 1
@@ -750,18 +749,18 @@ class myurllib():
                 ret['listgrowthampdisresponse']['count'] = count
                 self.query.clear()
                 return json.dumps(ret)   
-            elif api == 'listdealdays':
+            elif api == 'listtradedate':
                 sql = 'select distinct created from stock_day_info ORDER BY created asc'
                 self.query.exec_(sql)
-                ret = {'listdealdaysresponse':{}}
-                ret['listdealdaysresponse']['dealdays'] = []
+                ret = {'listtradedateresponse':{}}
+                ret['listtradedateresponse']['tradedate'] = []
                 count = 0
                 while self.query.next():
                     row = {}
-                    row['date'] = str(self.query.value(0).toString().toUtf8())
-                    ret['listdealdaysresponse']['dealdays'].append(row)
+                    row['listdate'] = str(self.query.value(0).toString().toUtf8())
+                    ret['listtradedateresponse']['tradedate'].append(row)
                     count += 1
-                ret['listdealdaysresponse']['count'] = count
+                ret['listtradedateresponse']['count'] = count
                 self.query.clear()
     #            log('ret',  ret)
                 return json.dumps(ret)
@@ -954,9 +953,9 @@ if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     urllib = myurllib()
 #    urllib.request('listStockDayInfo', {'stockid':'000001',  'starttime':'2000-01-01',  'endtime':'2014-01-01',  'sortname':'bull_profit'})
-#    urllib.request('listdaysum', {'starttime':'2000-01-01',  'endtime':'2014-01-01',  'sumType':'all',  'sumname':'avg_price',  'days':'3',  'page':'1',  'pagesize':1000,  'sortname':'threeSum'})
+#    urllib.request('listdaysum', {'starttime':'2000-01-01',  'endtime':'2014-01-01',  'sumtype':'all',  'sumname':'avg_price',  'days':'3',  'page':'1',  'pagesize':1000,  'sortname':'threeSum'})
 #    urllib.request('liststockdaysdiff', {'starttime':'2000-01-01',  'stockid':'000001, 000002, 000006', 'endtime':'2014-01-01',  'optname':'growth_ratio',  'opt':'maxmin','page':'1',  'pagesize':1000,  'sortname':'growth_ratio'})
 #    urllib.request('listgrowthampdis', {'starttime':'2012-10-01',  'endtime':'2012-11-01',  'stockid':'000001'})
-#    urllib.request('listDealDays', '')
+#    urllib.request('listtradedate', '')
     urllib.request('listcrossinfo', {'starttime':datetime.date(2012, 12, 10),  'endtime':datetime.date(2013, 12, 10), 'weight':'2', 'optname':'ytd_end_price'})
     sys.exit(app.exec_())

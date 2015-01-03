@@ -62,7 +62,7 @@ class MyMenu(QMenu):
         self.addMenu(subMenu)
         
         subMenu = QMenu(self)
-        subMenu.setTitle(u'总金额分档')
+        subMenu.setTitle(u'换手率分档')
         self.addMyAction(subMenu, u'换手率 < 0.9999%', 'CLASS_4_0')
         self.addMyAction(subMenu, u'换手率 1% ~ 2.9999%', 'CLASS_4_1')
         self.addMyAction(subMenu, u'换手率 3% ~ 4.9999%', 'CLASS_4_2')

@@ -65,40 +65,40 @@ reCalcTable = {
 }
 
 def initDealDays():
-    ret = callRestSync('listdealdays',  {'response': 'json'})
+    ret = callRestSync('listtradedate',  {'response': 'json'})
     if ret[0] == False:
         QMessageBox.warning(None,'warning', ret[1])
         sys.exit(1)
     try:
         decodedJson = json.loads(ret[1])
-        response = decodedJson['listdealdaysresponse']
-        valuelist = response['dealdays']
+        response = decodedJson['listtradedateresponse']
+        valuelist = response['tradedate']
         for value in valuelist:
             tmpDate = None
             try:
-                tmpDate = datetime.datetime.strptime(value['date'],"%Y-%m-%dT%H:%M:%S")
+                tmpDate = datetime.datetime.strptime(value['listdate'],"%Y-%m-%dT%H:%M:%S")
             except:
-                tmpDate = datetime.datetime.strptime(value['date'],"%Y-%m-%dT%H:%M:%S+0800")
+                tmpDate = datetime.datetime.strptime(value['listdate'],"%Y-%m-%dT%H:%M:%S+0800")
             if tmpDate is not None:
                 dealDays.append(tmpDate.date())
         
         dealDays.sort()
     except:
-#        import traceback 
-#        traceback.print_exc()
+        import traceback 
+        traceback.print_exc()
         QMessageBox.warning(None,'warning', u"通信错误")
         sys.exit(1)
         
 def init():
     
 #    ret = callRestSync('listStockBasicInfo',  {'response': 'json'})
-    ret = callRestSync('liststockclassfication',  {'response': 'json'})
+    ret = callRestSync('liststockclassification',  {'response': 'json'})
     if ret[0] == False:
         QMessageBox.warning(None,'warning', ret[1])
         sys.exit(1)
     try:
         decodedJson = json.loads(ret[1])
-        response = decodedJson['liststockclassficationresponse']
+        response = decodedJson['liststockclassificationresponse']
         valuelist = response['stockclassification']
         for value in valuelist:
             id2name[value['stockid']] = value['stockname']

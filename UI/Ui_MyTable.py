@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\WorkSpace\eric4\stockii\stockii_client\UI\MyTable.ui'
 #
-# Created: Sat Dec 13 18:44:28 2014
+# Created: Sat Jan 03 18:58:41 2015
 #      by: PyQt4 UI code generator 4.10
 #
 # WARNING! All changes made in this file will be lost!
@@ -62,6 +62,8 @@ class Ui_Form(object):
         self.actionCombineSelected.setObjectName(_fromUtf8("actionCombineSelected"))
         self.actionCombine = QtGui.QAction(Form)
         self.actionCombine.setObjectName(_fromUtf8("actionCombine"))
+        self.actionNewGroup = QtGui.QAction(Form)
+        self.actionNewGroup.setObjectName(_fromUtf8("actionNewGroup"))
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -77,6 +79,7 @@ class Ui_Form(object):
         self.actionDumpSelected.setText(_translate("Form", "导出选中内容", None))
         self.actionCombineSelected.setText(_translate("Form", "拼接所选", None))
         self.actionCombine.setText(_translate("Form", "拼接本页", None))
+        self.actionNewGroup.setText(_translate("Form", "新建分组", None))
 
 from freezetablewidget import FreezeTableWidget
 

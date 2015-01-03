@@ -100,6 +100,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.endDateEdit.setDate(self.endDate)
         
     def updateFilter(self):
+        config.writeSetting('groups',  self.groups)
         self.listWidget.clear()
         for key in self.groups:
             self.listWidget.addItem(key)
@@ -294,7 +295,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
         log.log(calcName)
         config.collect('info', u'X日和查询, 起始时间:%s, 结束时间:%s, 查询指标:%s, 查询类型:%s 代码: %s,' %(startD, endD, str(self.typeCombo.currentText().toUtf8()).decode('utf-8'), str(customNum)+self.customType.replace('D', u'日').replace('W', u'周').replace('M', u'月'), self.ids))
         if len(self.ids) == len(myGlobal.id2name.keys()):
-            args = {'starttime':startD,  'endtime':endD,  'sumType':sumType,  'sumname': calcName}
+            args = {'starttime':startD,  'endtime':endD,  'sumtype':sumType,  'sumname': calcName}
         else:
             args = {'stockid':','.join(self.ids),  'starttime':startD,  'endtime':endD,  'sumType':sumType,  'sumname': calcName}
         if self.customType == 'D':  
@@ -370,7 +371,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
         config.collect('info', u'添加分组, 分组名称: %s, 分组详情: %s' %(ret[0], ','.join(ret[1])))
         log.log(self.groups)
         self.updateFilter()
-        config.writeSetting('groups',  self.groups)
+        
         #raise NotImplementedError
     
     @pyqtSignature("")
@@ -393,7 +394,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
             return
         config.collect('info', u'编辑分组, 分组名称: %s, 新分组详情: %s' %(ret[0], ','.join(ret[1])))
         self.updateFilter()
-        config.writeSetting('groups',  self.groups)
+#        config.writeSetting('groups',  self.groups)
         if self.selectedGroup == selectedItemText:
             self.ids = self.groups[self.selectedGroup]
             self.clearClassify()
@@ -414,7 +415,7 @@ class StockMain(QMainWindow, Ui_MainWindow):
         config.collect('info', u'删除分组, 分组名称: %s, 分组详情: %s' %(selectedItemText, ','.join(self.groups[selectedItemText])))
         self.groups.pop(selectedItemText)
         self.updateFilter()
-        config.writeSetting('groups',  self.groups)
+#        config.writeSetting('groups',  self.groups)
     
 #    @pyqtSignature("bool")
 #    def on_action_showGroupView_triggered(self, checked):
@@ -674,13 +675,13 @@ class StockMain(QMainWindow, Ui_MainWindow):
         self.detailClassifyDate(arg)
         
         if curIndex == 0:
-            self.dayInfoModel.setFilter(type + '#' + arg)
+            self.dayInfoModel.setFilter(type + '__' + arg)
             self.on_queryBtn_clicked()
         elif curIndex == 1:
-            self.calcModel.setFilter(type + '#' + arg)
+            self.calcModel.setFilter(type + '__' + arg)
             self.on_queryBtn_2_clicked()
         elif curIndex == 2:
-            self.calcModel2.setFilter(type + '#' + arg)
+            self.calcModel2.setFilter(type + '__' + arg)
             self.on_calculateBtn_clicked()
     
     @pyqtSignature("")

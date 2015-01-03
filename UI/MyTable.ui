@@ -103,6 +103,11 @@
     <string>拼接本页</string>
    </property>
   </action>
+  <action name="actionNewGroup">
+   <property name="text">
+    <string>新建分组</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
